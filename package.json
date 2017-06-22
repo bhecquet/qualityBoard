@@ -1,0 +1,36 @@
+{
+  "private": true,
+  "license": "Apache License, Version 2.0",
+  "author": "AtlasBoard",
+  "name": "QualityDashboard",
+  "description": "A dashboard built for AtlasBoard",
+  "version": "0.0.1",
+  "homepage": "",
+  "repository": {
+    "type": "git",
+    "url": ""
+  },
+  "engines": {
+    "npm": "~2.0.0",
+    "node": ">=0.10"
+  },
+  "devDependencies": {
+    "mocha": "2.3.0"
+  },
+  "scripts": {
+    "start": "node start",
+    "test": "find . -regex '.*/jobs/.*/test/.*.js' | xargs mocha",
+    "coverage": "istanbul cover _mocha -- -R spec"
+  },
+  "dependencies": {
+    "gulp": "^3.9.1",
+    "gulp-istanbul": "^1.1.2",
+    "gulp-istanbul-report": "0.0.1",
+    "gulp-mocha": "^3.0.1",
+    "istanbul": "^0.4.5",
+    "jasmine": "^2.6.0",
+    "karma": "^1.7.0",
+    "node": "^6.9.5",
+    "nyc": "^11.0.2"
+  }
+}

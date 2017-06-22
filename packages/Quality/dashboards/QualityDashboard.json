@@ -1,0 +1,42 @@
+{
+
+	"title": "Quality dashboard",
+	"titleVisible": false,
+
+	"description": "Quality dashboard of a choosen project.",
+
+	"layout": {
+			"gridSize" : { "columns" : 20, "rows" : 30 },
+			"customJS" : ["jquery.peity.js"],
+			"widgets" : [
+				{"row" : 2, "col" : 4, "width" : 20, "height" : 3,
+					"widget" : "Project", "job" : "Project", "config": "projectName"},
+				{"row" : 3, "col" : 1, "width" : 7, "height" : 15,
+					"widget" : "SonarQube", "job" : "SonarQube", "config": "SonarQube"}
+			]
+	},
+
+	"config": {
+		"projectName" : {
+			"interval" : 10000,
+			"project" :  "core"
+		},
+		"SonarQube" : {
+			"interval" : 10000,
+			"widgetTitle" : " SonarQube ",
+			"project" : "core",
+			"metricList" : ["complexity", "comment_lines",
+								"duplicated_blocks", "violations", 
+								"code_smells", "bugs", 
+								"vulnerabilities"],
+			"testList" : ["tests", "coverage", "test_errors", "test_failures", "test_success_density"],
+			"Avancement" : "sqale_index",
+			"metricAdress" : "http://vs-dev15:9000/api/measures/component?componentKey=com.infotel.seleniumRobot:",
+			"graphicAdress" : "http://vs-dev15:9000/api/timemachine/index?resource=com.infotel.seleniumRobot:",
+			"metricLinkB" : "http://vs-dev15:9000/component_measures/metric/",
+			"metricLinkE" : "/list?id=com.infotel.seleniumRobot%3A",
+			"sonarQubeServerUrl": "http://vs-dev15:9000",
+			"metricUrl": "/component_measures/metric/<METRICS>/list?id=<PROJECT>"
+		}
+	}
+}
