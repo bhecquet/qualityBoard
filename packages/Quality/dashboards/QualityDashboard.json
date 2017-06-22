@@ -9,7 +9,7 @@
 			"gridSize" : { "columns" : 20, "rows" : 30 },
 			"customJS" : ["jquery.peity.js"],
 			"widgets" : [
-				{"row" : 2, "col" : 4, "width" : 20, "height" : 3,
+				{"row" : 2, "col" : 4, "width" : 19, "height" : 3,
 					"widget" : "Project", "job" : "Project", "config": "projectName"},
 				{"row" : 3, "col" : 1, "width" : 7, "height" : 15,
 					"widget" : "SonarQube", "job" : "SonarQube", "config": "SonarQube"}
@@ -25,6 +25,8 @@
 			"interval" : 10000,
 			"widgetTitle" : " SonarQube ",
 			"project" : "core",
+			"login" : "user",
+			"password" : "infotel34",
 			"metricList" : ["complexity", "comment_lines",
 								"duplicated_blocks", "violations", 
 								"code_smells", "bugs", 

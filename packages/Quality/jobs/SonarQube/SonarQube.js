@@ -8,6 +8,7 @@ module.exports = {
 	//Right 	: Global progression of the project 
 	//Bottom 	: Unit tests and project coverage
 
+
 	//Metric values part 
 
 		var tab = new Array();
@@ -23,13 +24,18 @@ module.exports = {
 					adress = adress.substring(0,adress.length - 1);
 		}
 
-		dependencies.easyRequest.JSON(adress, function(err, body){
-			if(body.component){
-		 		body.component.measures.forEach(function(metric){
+
+		/*use request to support the authetication*/
+
+		dependencies.request(adress,function(err,response,body){
+			var jSonFile = JSON.parse(body);
+			if(jSonFile.component){
+		 		jSonFile.component.measures.forEach(function(metric){
 		 			tab.push(metric);
 		 		});
 			}
 		});
+		
 		
 
 
@@ -55,13 +61,18 @@ module.exports = {
 		try{
 			list.forEach(function(metrique){
 				adress = config.metricAdress + config.project + "&metricKeys=" + metrique;
-				dependencies.easyRequest.JSON(adress, function(err, body){
+				dependencies.request(adress,function(err,response,body){
 					if(body){
-						if(body.component.measures){
-				 			tabTest.push(body.component.measures[0]); 
+						//request return a string, not a JSON object
+						var jSonFile = JSON.parse(body);
+						if(jSonFile.component){
+							if(jSonFile.component.measures){
+					 			tabTest.push(jSonFile.component.measures[0]); 
+							}
 						} 
 					}
 				});
+
 			});
 			} catch(e){
 				tabTest = []
@@ -71,34 +82,32 @@ module.exports = {
 		var graphicTest = new Array();
 		graphicTest = [];
 		var graphicAdress = config.graphicAdress + config.project +  "&metrics=coverage" ;
-		dependencies.easyRequest.JSON(graphicAdress, function(err,body){
-
-			if(body[0]){
-				if(body[0].cells){	
-					body[0].cells.forEach(function(test){
-									graphicTest.push(test.v[0]);
-								});
-				} 
+		dependencies.request(graphicAdress,function(err,response,body){
+			if(body){
+				var jSonFile = JSON.parse(body);
+				if(jSonFile[0]){
+					if(jSonFile[0].cells){	
+						jSonFile[0].cells.forEach(function(test){
+										graphicTest.push(test.v[0]);
+									});
+					} 
+				}
 			}
-
-
-
 
 	//Avancment Part
 			var adress = config.graphicAdress + config.project + "&metrics=" +  config.Avancement;
 			var Globalgraphic = new Array();
 			Globalgraphic = [];
-			dependencies.easyRequest.JSON(adress, function(err,body){
-				if(body[0]){
-					if(body[0].cells){
-						body[0].cells.forEach(function(test){
-							Globalgraphic.push(test.v[0]);
-						});
-					}else {
-					graphicTest = [];
+			dependencies.request(adress,function(err,response,body){
+				if(body){
+					jSonFile = JSON.parse(body);
+					if(jSonFile[0]){
+						if(jSonFile[0].cells){
+							jSonFile[0].cells.forEach(function(test){
+								Globalgraphic.push(test.v[0]);
+							});
+						}
 					}
-				}else {
-					graphicTest = [];
 				}
 
 				jobCallback(null,{title : config.title, project : config.project,
