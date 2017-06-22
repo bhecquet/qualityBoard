@@ -26,7 +26,7 @@
 		var GRID_ROWS = <%=(dashboardConfig.layout.gridSize && dashboardConfig.layout.gridSize.rows || 4) %>;
 	</script>
 
-	<div id="main-container" style="transform : scale(0);" >
+	<div id="main-container" >
 		<% if (dashboardConfig.title && dashboardConfig.titleVisible) { %>
 		<h1 class="title"><%= dashboardConfig.title %></h1>
 		<% } %>
@@ -62,7 +62,10 @@
 	<script src="<%=dashboardName%>/js"></script>
 	<script type="text/javascript">
 		// shut the eventListener so that the widgets won't adapt to the screen size
-			$(window).off('resize');
+			$(window).off("resize");
+
+		//Script to prevent the first adjusment
+			$("#main-container").css("transform","scale(1)");
 	</script>
 
 </body>
