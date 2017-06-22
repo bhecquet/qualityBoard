@@ -20,13 +20,13 @@
 
 	<link rel="icon" type="image/png" href="images/favicon.png"/>
 </head>
-<body class="dashboard" style="overflow: overlay; resize: none;">
+<body class="dashboard" style="overflow: overlay;">
 	<script>
 		var GRID_COLUMNS = <%=(dashboardConfig.layout.gridSize && dashboardConfig.layout.gridSize.columns || 6) %>;
 		var GRID_ROWS = <%=(dashboardConfig.layout.gridSize && dashboardConfig.layout.gridSize.rows || 4) %>;
 	</script>
 
-	<div id="main-container">
+	<div id="main-container" style="transform : scale(0);" >
 		<% if (dashboardConfig.title && dashboardConfig.titleVisible) { %>
 		<h1 class="title"><%= dashboardConfig.title %></h1>
 		<% } %>
@@ -51,6 +51,8 @@
 	Deprecation message: D3 and rickshaw will eventually be removed from Atlasboard core.
 	If your package needs them, it would need to provide them as dependency
 	-->
+
+
 	<script src="bower_components/rickshaw/vendor/d3.v2.js"></script>
 	<script src="bower_components/rickshaw/rickshaw.min.js"></script>
 
@@ -59,9 +61,8 @@
 	<script src="build/app.js"></script>
 	<script src="<%=dashboardName%>/js"></script>
 	<script type="text/javascript">
-		// kill the eventListener so that scale would stay null
-			 //var $mainContainer = $('#main-container');
-			document.getElementById($(main-container)).removeEventListener("resize");
+		// shut the eventListener so that the widgets won't adapt to the screen size
+			$(window).off('resize');
 	</script>
 
 </body>
