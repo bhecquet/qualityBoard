@@ -11,9 +11,10 @@ describe('SonarQube Job', function(){
 
 		mockedDependencies = {
 			logger: console,
-			request :  function (options,response, cb) {
+			request : {
+				get :  function (options,response, cb) {
 					return(null, {});
-				
+				}
 			}
 		};
 
@@ -23,7 +24,6 @@ describe('SonarQube Job', function(){
 		var config = {	"title" : 'title',
 						'project' : null,
 						'metricLinkB' : 'link'};
-		
 
 		it('should return the config title', function(){
 			
@@ -44,7 +44,8 @@ describe('SonarQube Job', function(){
 	describe('data recuperation', function(){
 		beforeEach(function(){
 			mockedDependencies = {
-				request :function(options,response, cb){
+				request : {
+					get :function(options,response, cb){
 						return(null,
 							{"component":
 								{"id":"AVUqWL3s63m25aHrZhrY","key":"com.infotel.seleniumRobot:core","name":"core",
@@ -55,7 +56,7 @@ describe('SonarQube Job', function(){
 										{"index":3,"value":"0.0"}]
 									}]
 								}});
-					
+					}
 				}		
 			} 
 
@@ -90,11 +91,12 @@ describe('SonarQube Job', function(){
 
 		it('Should return an empty tab if it recieved data in the wrong shape',function(){
 			mockedDependencies = {
-				request :function(options,cb){
+				request : {
+					get :function(options,cb){
 						return(null,
 							[{"cels": [{"v" : [10]},{"v" : [2]}]
 								}]);
-					
+					}	
 				}
 			}
 			SonarQube_SUT.onRun(config,mockedDependencies,function(err,data){
@@ -104,11 +106,12 @@ describe('SonarQube Job', function(){
 
 		it('Should return tabs filled with right data',function(){
 			mockedDependencies = {
-				request :function(options,response,cb){
+				request : {
+					get :function(options,response,cb){
 						return(null,
 							[{"cells": [{"v" : [10]},{"v" : [2]}]
 								}]);
-					
+					}
 				}
 			}
 
@@ -123,9 +126,11 @@ describe('SonarQube Job', function(){
 		it('Should return empty tabs if one of the metric is written wrong',function(){
 
 			mockedDependencies = {
-				request :function(options,response,cb){
+				request : {
+					get :function(options,response,cb){
 						return(null,
 							{"errors":[{"msg":"The following metric keys are not found: metrics written wrong"}]});
+					}
 				}
 			}
 

@@ -24,6 +24,8 @@ To install atlasboard, use the command
 	'npm install -g atlasboard' 
 to have it install on your computer.
 
+Before the first use, in 'packages/Quality/dashboard/QualityDashboard.json', make sure you add your username and password in the config of each widget. 
+
 To launch the application, you have to be on the root of the folder and use the command :
 	'atlasboard start <portNumber>'. 
 The default portNumber is 3000.

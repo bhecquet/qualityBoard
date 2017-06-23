@@ -2,7 +2,9 @@ module.exports = {
 
 
 	onRun: function (config, dependencies, jobCallback) {
-
+		//Authetication informations:
+		var user = config.username;
+		var password = config.password;
 //Three part in the widget :
 	//Left 		: Metric list and values
 	//Right 	: Global progression of the project 
@@ -27,12 +29,20 @@ module.exports = {
 
 		/*use request to support the authetication*/
 
-		dependencies.request(adress,function(err,response,body){
-			var jSonFile = JSON.parse(body);
-			if(jSonFile.component){
-		 		jSonFile.component.measures.forEach(function(metric){
-		 			tab.push(metric);
-		 		});
+		dependencies.request.get(adress,{
+			'auth' : {
+				'user' : user,
+				'pass' : password
+			}
+		},
+		function(err,response,body){
+			if(body){
+				var jSonFile = JSON.parse(body);
+				if(jSonFile.component){
+			 		jSonFile.component.measures.forEach(function(metric){
+			 			tab.push(metric);
+			 		});
+				}
 			}
 		});
 		
@@ -61,7 +71,13 @@ module.exports = {
 		try{
 			list.forEach(function(metrique){
 				adress = config.metricAdress + config.project + "&metricKeys=" + metrique;
-				dependencies.request(adress,function(err,response,body){
+				dependencies.request.get(adress,{
+						'auth' : {
+							'user' : user,
+							'pass' : password
+						}
+					},
+					function(err,response,body){
 					if(body){
 						//request return a string, not a JSON object
 						var jSonFile = JSON.parse(body);
@@ -82,7 +98,13 @@ module.exports = {
 		var graphicTest = new Array();
 		graphicTest = [];
 		var graphicAdress = config.graphicAdress + config.project +  "&metrics=coverage" ;
-		dependencies.request(graphicAdress,function(err,response,body){
+		dependencies.request.get(graphicAdress,{
+				'auth' : {
+					'user' : user,
+					'pass' : password
+				}
+			},
+			function(err,response,body){
 			if(body){
 				var jSonFile = JSON.parse(body);
 				if(jSonFile[0]){
@@ -98,7 +120,13 @@ module.exports = {
 			var adress = config.graphicAdress + config.project + "&metrics=" +  config.Avancement;
 			var Globalgraphic = new Array();
 			Globalgraphic = [];
-			dependencies.request(adress,function(err,response,body){
+			dependencies.request.get(adress,{
+				'auth' : {
+					'user' : user,
+					'pass' : password
+				}
+			},
+			function(err,response,body){
 				if(body){
 					jSonFile = JSON.parse(body);
 					if(jSonFile[0]){
