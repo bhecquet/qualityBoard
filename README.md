@@ -20,6 +20,8 @@ In the futur two more widgets will be created to show Jira and SquashTM informat
 
 This dashboard require nodeJS, npm and atlasboard.
 
+Before using your dashboard for the first time, be sure NodeJS and npm are installed.
+
 To install atlasboard, use the command 	
 	'npm install -g atlasboard' 
 to have it install on your computer.

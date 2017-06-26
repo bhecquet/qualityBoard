@@ -6,7 +6,7 @@ widget = {
 			$('h2', el).text(data.title);
 		}
 
-
+		//function to sort the metric by name
 		function valueSort(obj1,obj2){
 			if (obj1.metric < obj2.metric) return -1;
 			else if (obj1.metric == obj2.metric) return 0;
@@ -20,14 +20,21 @@ widget = {
 			var tab = data.metricValues.sort(valueSort);
 
 			tab.forEach(function (metrique) {
-				$metric.append(
-						"<div class='item-container'>" +
-							"<a class='issue' href='" + data.begin + metrique.metric + data.end + data.project + "'>" + metrique.metric + "</a>" +
-							"<span class='count'>" + metrique.value + "</span>" +
-						"</div>"
-				);
+					if(metrique.metric){
+						$metric.append(
+							"<div class='item-container'>" +
+								"<a class='issue' href='" + data.begin + metrique.metric + data.end + data.project + "'>" + metrique.metric + "</a>" +
+								"<span class='count'>" + metrique.value + "</span>" +
+							"</div>");
+					} else if (metrique.msg){
+						$metric.append('<span class = "error">' +  metrique.msg + '</span>');
+					} else{
+						$metric.append('<div class = "error"> Username or password incorect </div>');
+					}
 
-			})
+				})
+		} else {
+			$metric.append(data.metricValues);
 		}
 
 //Right part : Global avancment
@@ -66,12 +73,16 @@ widget = {
 		if (data.testValues.length) {
 			data.testValues.sort(valueSort);
 			data.testValues.forEach(function (metrique) {
-				$testM.append(
-					"<div class='item-container'>" +
-						"<a class='issue' href='" + data.begin + metrique.metric + data.end + "'>" + metrique.metric + "</a>" +
-						"<div class='count'>" + metrique.value + "</div>" +
-					"</div>"
-				);
+				if(metrique.metric){
+					$testM.append(
+						"<div class='item-container'>" +
+							"<a class='issue' href='" + data.begin + metrique.metric + data.end + "'>" + metrique.metric + "</a>" +
+							"<div class='count'>" + metrique.value + "</div>" +
+						"</div>"
+					);
+				} else if (metrique.msg){
+					$testM.append('<span class = "error">' +  metrique.msg + '</span>');
+				}
 				if(metrique.metric == 'test_success_density'){
 					err = metrique.value;
 				}

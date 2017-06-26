@@ -18,56 +18,9 @@ module.exports = {
 		var list = config.metricList;
 		var adress = config.metricAdress + config.project + "&metricKeys=";
 
-
-		if(list){
-			list.forEach(function(metric){
-						adress = adress + metric + ",";
-					});
-					adress = adress.substring(0,adress.length - 1);
-		}
-
-
 		/*use request to support the authetication*/
 
-		dependencies.request.get(adress,{
-			'auth' : {
-				'user' : user,
-				'pass' : password
-			}
-		},
-		function(err,response,body){
-			if(body){
-				var jSonFile = JSON.parse(body);
-				if(jSonFile.component){
-			 		jSonFile.component.measures.forEach(function(metric){
-			 			tab.push(metric);
-			 		});
-				}
-			}
-		});
-		
-		
 
-
-	//Test Part
-		//This part is composed of two parts : a graphic on the left and a list on the right
-
-		//Test metrics values
-		var tabTest = new Array();
-		tabTest = [];
-		var adress = "";
-		var list = config.testList;
-
-
-		/*if(list){
-			list.forEach(function(metrique){
-				adress = config.metricAdress + config.project + "&metricKeys=" + metrique;
-				dependencies.easyRequest.JSON(adress, function(err, body){
-				 	tabTest.push(body.component.measures[0]); 
-				});
-			});
-		}
-*/
 		try{
 			list.forEach(function(metrique){
 				adress = config.metricAdress + config.project + "&metricKeys=" + metrique;
@@ -83,7 +36,57 @@ module.exports = {
 						var jSonFile = JSON.parse(body);
 						if(jSonFile.component){
 							if(jSonFile.component.measures){
+					 			tab.push(jSonFile.component.measures[0]); 
+							}
+						}else if(jSonFile.err_code){
+							tab.push(jSonFile.err_msg);
+						} else if(jSonFile.errors){
+								tab.push(jSonFile.errors[0]);
+							}
+						} 
+					}
+				);
+
+			});
+			} catch(e){
+				tabTest = []
+				console.log(e);
+		} 
+		
+		
+
+
+	//Test Part
+		//This part is composed of two parts : a graphic on the left and a list on the right
+
+		//Test metrics values
+		var tabTest = new Array();
+		tabTest = [];
+		var adress = "";
+		var list = config.testList;
+
+
+		try{
+			list.forEach(function(metrique){
+				adress = config.metricAdress + config.project + "&metricKeys=" + metrique;
+				dependencies.request.get(adress,{
+						'auth' : {
+							'user' : user,
+							'pass' : password
+						}
+					},
+					function(err,response,body){
+					if(body){
+						//request return a string, not a JSON object
+						var jSonFile = JSON.parse(body);
+
+						if(jSonFile.component){
+							if(jSonFile.component.measures){
 					 			tabTest.push(jSonFile.component.measures[0]); 
+							}
+						} else{
+							if(jSonFile.errors){
+								tabTest.push(jSonFile.errors[0]);
 							}
 						} 
 					}
@@ -92,7 +95,10 @@ module.exports = {
 			});
 			} catch(e){
 				tabTest = []
+				console.log(e);
 		}
+
+
 		// Coverage graphic
 
 		var graphicTest = new Array();
