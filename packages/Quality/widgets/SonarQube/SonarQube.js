@@ -29,12 +29,14 @@ widget = {
 					} else if (metrique.msg){
 						$metric.append('<span class = "error">' +  metrique.msg + '</span>');
 					} else{
+						$metric.empty();
 						$metric.append('<div class = "error"> Username or password incorect </div>');
 					}
 
 				})
 		} else {
 			$metric.append(data.metricValues);
+
 		}
 
 //Right part : Global avancment
@@ -57,7 +59,7 @@ widget = {
 		});	
 
 		$titleA.empty();
-		$titleA.append("Avancement du projet : <a href='http://vs-dev15:9000/component_measures/metric/sqale_index/list?id=com.infotel.seleniumRobot%3Acore'> Dettes techniques </a>");
+		$titleA.append("Project avancment : <a href='http://vs-dev15:9000/component_measures/metric/sqale_index/list?id=com.infotel.seleniumRobot%3Acore'> Dettes techniques </a>");
 
 
 //Bottom part : Test and coverage
