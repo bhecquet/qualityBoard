@@ -123,7 +123,7 @@ describe('SonarQube Job', function(){
 			
 		});
 
-		it('Should return empty tabs if one of the metric is written wrong',function(){
+		it('Should return a message if one of the metric is written wrong',function(){
 
 			mockedDependencies = {
 				request : {
@@ -135,11 +135,26 @@ describe('SonarQube Job', function(){
 			}
 
 			SonarQube_SUT.onRun(config,mockedDependencies,function(err,data){
-				assert.deepEqual(data.graphicTest,[]);
-				assert.deepEqual(data.Globalgraphic,[]);
-				assert.deepEqual(data.graphicTest,[]);
+				assert.deepEqual(data.graphicTest,[{"msg":"The following metric keys are not found: metrics written wrong"}]);
+				assert.deepEqual(data.Globalgraphic,[{"msg":"The following metric keys are not found: metrics written wrong"}]);
+				assert.deepEqual(data.graphicTest,[{"msg":"The following metric keys are not found: metrics written wrong"}]);
 			});
 
+		});
+
+		it('Should return a message if the password or username is wrong', function(){
+			mockedDependencies = {
+				request : {
+					get :function(options,response,cb){
+						return(null,
+							{"errors":[{"msg":"The following metric keys are not found: metrics written wrong"}]});
+					}
+				}
+			}
+
+			SonarQube_SUT.onRun(config, mockedDependencies,function(err,data){
+				assert.deepEqual(data.metricValues,['Unauthorized']);
+			});
 		});
 
 

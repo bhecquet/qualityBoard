@@ -46,11 +46,9 @@ module.exports = {
 						} 
 					}
 				);
-
 			});
 			} catch(e){
-				tabTest = []
-				console.log(e);
+				tabTest = [];
 		} 
 		
 		
@@ -94,8 +92,7 @@ module.exports = {
 
 			});
 			} catch(e){
-				tabTest = []
-				console.log(e);
+				tabTest = [];
 		}
 
 
