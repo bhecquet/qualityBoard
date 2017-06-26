@@ -12,7 +12,9 @@
 				{"row" : 2, "col" : 4, "width" : 19, "height" : 3,
 					"widget" : "Project", "job" : "Project", "config": "projectName"},
 				{"row" : 3, "col" : 1, "width" : 7, "height" : 15,
-					"widget" : "SonarQube", "job" : "SonarQube", "config": "SonarQube"}
+					"widget" : "SonarQube", "job" : "SonarQube", "config": "SonarQube"},
+				{"row" : 3, "col" : 18, "width" : 8, "height" : 15,
+					"widget" : "Jira", "job" : "Jira", "config": "Jira"}
 			]
 	},
 
@@ -39,6 +41,10 @@
 			"metricLinkE" : "/list?id=com.infotel.seleniumRobot%3A",
 			"sonarQubeServerUrl": "http://vs-dev15:9000",
 			"metricUrl": "/component_measures/metric/<METRICS>/list?id=<PROJECT>"
+		},
+		"Jira" : {
+			"interval" : 10000,
+			"widgetTitle" : "Jira"
 		}
 	}
 }
