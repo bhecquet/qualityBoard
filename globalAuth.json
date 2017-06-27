@@ -1,0 +1,10 @@
+{
+    "jira":{
+        "username":"user",
+        "password":"psswd"
+    },
+    "SonarQube":{
+    	"username":"user",
+    	"password":"infotel35"
+    }
+}

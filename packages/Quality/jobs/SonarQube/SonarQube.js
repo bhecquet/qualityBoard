@@ -3,8 +3,18 @@ module.exports = {
 
 	onRun: function (config, dependencies, jobCallback) {
 		//Authetication informations:
-		var user = config.username;
-		var password = config.password;
+		try {
+			var user = config.globalAuth[config.authName].username;
+			var password = config.globalAuth[config.authName].password;
+			console.log(config.authName);
+		} catch(e){
+			var user = "error";
+			var password = "error";
+			console.log(e);
+		}
+
+		console.log('user : ' + user);
+		console.log('password : ' + password);
 //Three part in the widget :
 	//Left 		: Metric list and values
 	//Right 	: Global progression of the project 
@@ -48,8 +58,8 @@ module.exports = {
 				);
 			});
 			} catch(e){
-				tabTest = [];
-		} 
+				tab = [];
+		}
 		
 		
 
@@ -74,7 +84,7 @@ module.exports = {
 						}
 					},
 					function(err,response,body){
-					if(body){
+					if('body' + body){
 						//request return a string, not a JSON object
 						var jSonFile = JSON.parse(body);
 
@@ -94,7 +104,6 @@ module.exports = {
 			} catch(e){
 				tabTest = [];
 		}
-
 
 		// Coverage graphic
 

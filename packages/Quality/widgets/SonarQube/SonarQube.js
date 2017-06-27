@@ -59,7 +59,7 @@ widget = {
 		});	
 
 		$titleA.empty();
-		$titleA.append("Project avancment : <a href='http://vs-dev15:9000/component_measures/metric/sqale_index/list?id=com.infotel.seleniumRobot%3Acore'> Dettes techniques </a>");
+		$titleA.append("Project avancment : <a href='http://vs-dev15:9000/component_measures/metric/sqale_index/list?id=com.infotel.seleniumRobot%3Acore'> Technical Debt </a>");
 
 
 //Bottom part : Test and coverage

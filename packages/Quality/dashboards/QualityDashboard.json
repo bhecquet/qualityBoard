@@ -27,8 +27,7 @@
 			"interval" : 10000,
 			"widgetTitle" : " SonarQube ",
 			"project" : "core",
-			"username" : "user",
-			"password" : "infotel35",
+			"authName" : "SonarQube",
 			"metricList" : ["complexity", "comment_lines",
 								"duplicated_blocks", "violations", 
 								"code_smells", "bugs", 
@@ -44,7 +43,9 @@
 		},
 		"Jira" : {
 			"interval" : 10000,
-			"widgetTitle" : "Jira"
+			"widgetTitle" : " Jira ",
+			"username" : "$User",
+			"password" : "$Password"
 		}
 	}
 }
