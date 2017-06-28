@@ -44,8 +44,7 @@
 		"Jira" : {
 			"interval" : 10000,
 			"widgetTitle" : " Jira ",
-			"username" : "$User",
-			"password" : "$Password"
+			"authName" : "Jira"
 		}
 	}
 }
