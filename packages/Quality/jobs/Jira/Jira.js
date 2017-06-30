@@ -13,27 +13,111 @@ module.exports = {
 			var password = "error";
 		}
 
-		var adress = "https://jira.infotel.com/si/jira.issueviews:issue-xml/ENVMONITOR-16/ENVMONITOR-16.xml";
+		/*Function to get all issues concerning a given project*/
 
-		/*Function to get the differents o=informations of a given demand*/
+		var IssuesTab = [];
 
-		/*dependencies.request.get(adress,{
-						'auth' : {
-							'user' : user,
-							'pass' : password
-						}
-					},
-					function(err,response,body){
-						parseString(body,function(err,data){
-							var test = data;
-							// console.log('type : ' + data.rss.channel[0].item[0].type[0]._);
-							// console.log('Status : ' +  data.rss.channel[0].item[0].status[0]._);
-							// console.log( 'Priority : ' + data.rss.channel[0].item[0].priority[0]._);
-							// console.log(  'Title : ' + data.rss.channel[0].item[0].title[0]);
-							//console.log('id : ' + data.rss.channel[0].item[0].key[0]._);
+		var adress = config.jiraServer + config.jiraRequest + "key=" + config.project;
+		var nbIssues = nbUndefined = nbSecond = nbMajeur = 0;
+		var nbOpen = nbDone = nbInProcess = 0;
+		var index = 0;
+
+		dependencies.request.get(
+			adress,
+			{
+				'auth' : {
+					'user' : user,
+					'pass' : password
+				}
+			},
+			function(err,response,data){
+				var issues = JSON.parse(data);
+				issues.issues.forEach(function(issue){
+					if(issue.key){
+						IssuesTab.push(issue.key);
+					}
+				});
+				var IssuesList = new Array();//Will be fill with all the informations regarding issues.
+
+				try{
+					index = 0;
+					IssuesTab.forEach(function(issue,pos){
+						var id,title,status,priority,type,version;
+						adress = config.jiraServer + config.jiraXML + issue + "/" + issue + ".xml";
+
+						dependencies.request.get(adress,{
+								'auth' : {
+									'user' : user,
+									'pass' : password
+								}
+							},
+							function(err,response,body){
+								parseString(body,function(err,data){
+									type =  data.rss.channel[0].item[0].type[0]._;
+									status =  data.rss.channel[0].item[0].status[0]._;
+									priority = data.rss.channel[0].item[0].priority[0]._;
+									title = data.rss.channel[0].item[0].title[0];
+									id = data.rss.channel[0].item[0].key[0]._;
+									version = data.rss.$.version;
+								
+								nbIssues += 1;
+								var issueDescription = {
+									'id' : id,
+									'type' : type,
+									'status' : status,
+									'priority' : priority,
+									'title' : title
+								};
+								switch(priority){
+									case "Undefined":
+										nbUndefined= nbUndefined +1;
+										break;
+									case "Secondaire":
+										nbSecond= nbSecond +1;
+										break;
+									case "Majeure":
+										nbMajeur= nbMajeur +1;
+										break;
+									default :
+										console.log(priority);
+										break;
+								}
+								switch(status){
+									case 'A faire':
+										nbOpen = nbOpen + 1;
+										break;
+									case 'Fini':
+										nbDone = nbDone + 1;
+										break;
+									case 'En cours':
+										nbInProcess = nbInProcess + 1;
+										break;
+									default:
+										console.log(status);
+										break;
+								}
+								IssuesList.push(issueDescription);
+								if(IssuesList.length == IssuesTab.length){
+									jobCallback(null, {title: config.widgetTitle, project : config.project,
+														IssuesList : IssuesList,
+														nbOpen : nbOpen, nbIssues : nbIssues, nbDone : nbDone,
+														nbInProcess : nbInProcess, nbMajeur : nbMajeur,
+														nbSecond : nbSecond, nbUndefined : nbUndefined,
+														version : version});
+
+								}
+								});
+							});
 						});
-					});*/
+					
+					
+				}catch(e){
+					IssuesList.push('No informations recieved');
+					jobCallback(null, {title: config.widgetTitle, IssuesList : IssuesList});
+				}
+				
 
-		jobCallback(null, {title: config.widgetTitle});
+			}
+		);
 	}
 };

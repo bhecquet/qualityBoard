@@ -44,7 +44,11 @@
 		"Jira" : {
 			"interval" : 10000,
 			"widgetTitle" : " Jira ",
-			"authName" : "Jira"
+			"authName" : "Jira",
+			"project" : "ENVMONITOR",
+			"jiraServer" : "https://jira.infotel.com",
+			"jiraRequest" : "/rest/api/2/search?",
+			"jiraXML" : "/si/jira.issueviews:issue-xml/"
 		}
 	}
 }
