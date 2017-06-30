@@ -98,8 +98,8 @@ module.exports = {
 								}
 								IssuesList.push(issueDescription);
 								if(IssuesList.length == IssuesTab.length){
-									jobCallback(null, {title: config.widgetTitle, project : config.project,
-														IssuesList : IssuesList,
+									jobCallback(null, {title: config.widgetTitle, project : config.project, 
+														IssuesList : IssuesList, jiraServer : config.jiraServer,
 														nbOpen : nbOpen, nbIssues : nbIssues, nbDone : nbDone,
 														nbInProcess : nbInProcess, nbMajeur : nbMajeur,
 														nbSecond : nbSecond, nbUndefined : nbUndefined,

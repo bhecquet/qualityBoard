@@ -5,6 +5,39 @@ widget = {
 			$('h2', el).text(data.title);
 		}
 
+		//Function to sort the issues by id
+		function idSort(obj1,obj2){
+			if (obj1.title < obj2.title) return -1;
+			else if (obj1.title == obj2.title) return 0;
+			else return 1;
+		}
+
+		//Function to sort the issues by priority
+
+		function priorSort(obj1,obj2){
+			var result = 0;
+			switch(obj1.priority){
+				case 'Undefined':
+					if(!(obj2.priority === 'Undefined')){
+						result = -1;
+					}
+					break;
+				case 'Majeure':
+					if(!(obj2.priority === 'Majeure')){
+						result = 1;
+					}
+					break;
+				case 'Secondaire':
+					if(obj2.priority === 'Majeure'){
+						result = -1;
+					} else if(obj2.priority === 'Undefined'){
+						result = 1
+					}
+					break;
+			}
+			return -result;
+		}
+
 		//In the project part, name and version of the project
 		$name = $('.name',el);
 		$name.empty();
@@ -47,13 +80,12 @@ widget = {
 		);
 
 		//IssuesList
-		$IssuesList = ('.IssuesList',el);
-		
-
-		var issues = data.IssuesList;
-
+		$IssuesList = $('.IssuesList',el);
+		var issues = data.IssuesList.sort(priorSort);
+		var prior = "";
+		console.log($IssuesList);
 		issues.forEach(function(issue){
-			var prior = "";
+			prior = "";
 			//The background of the issu will depands of its priority
 			switch(issue.priority){
 				case 'Undefined':
@@ -66,16 +98,28 @@ widget = {
 					prior = 'second';
 					break;
 				default:
+					prior = 'error';
 					break;
 			}
-			$IssuesList.append(
-				'<div class="' + prior +'">' + 
-					'<span class="priority>' + issue.priority + '</span>' +
-					'<span class="status">' + issue.status + '</span>' + 
-					'<span class ="type">' + issues.type + '</span>' +
-					'<div class="name">' + issue.title + '</span>' +
-				'</div>'
-			);
+			var id = issue.id;
+			var priority = issue.priority;
+			var status = issue.status;
+			var type = issue.type;
+			var title = issue.title;
+			var adress = data.jiraServer + '/projects/' + data.project + 
+						'/issues/' + id;//Link to the real issue
+			//If to be sure there is a title
+			if(title){
+				$IssuesList.append(
+							'<tr class="' + prior +'"> ' + 
+								'<th class="priority">   ' + priority + '</th>' +
+								'<th class="status">   ' + status + '</th>' + 
+								'<th class ="type">   ' + type + '</th>' +
+								'<th class="title"> <a href="' + adress +'">' + title + '</a></th>' +
+							'</tr>'
+						);
+			}
+			console.log(issue.type);
 		});
 	}
 };
