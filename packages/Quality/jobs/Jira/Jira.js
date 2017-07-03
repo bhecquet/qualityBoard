@@ -3,8 +3,10 @@ module.exports = {
 
 	onRun: function (config, dependencies, jobCallback) {
 
+		//To parse an XML file into a JS object
 		var parseString = require('xml2js').parseString;
 
+		//Get the authetication inforations if given
 		try {
 			var user = config.globalAuth[config.authName].username;
 			var password = config.globalAuth[config.authName].password;
@@ -17,10 +19,10 @@ module.exports = {
 
 		var IssuesTab = [];
 
-		var adress = config.jiraServer + config.jiraRequest + "key=" + config.project;
+		var adress = config.jiraServer + config.jiraRequest + "key=" + config.project;//Adress of the issues
 		var nbIssues = nbUndefined = nbSecond = nbMajeur = 0;
-		var nbOpen = nbDone = nbInProcess = 0;
-		var index = 0;
+		var nbOpen = nbDone = nbInProcess = 0;//For statistics
+
 
 		dependencies.request.get(
 			adress,
@@ -36,11 +38,10 @@ module.exports = {
 					if(issue.key){
 						IssuesTab.push(issue.key);
 					}
-				});
+				});//Request to get all the issues' key
 				var IssuesList = new Array();//Will be fill with all the informations regarding issues.
 
 				try{
-					index = 0;
 					IssuesTab.forEach(function(issue,pos){
 						var id,title,status,priority,type,version;
 						adress = config.jiraServer + config.jiraXML + issue + "/" + issue + ".xml";
@@ -67,7 +68,7 @@ module.exports = {
 									'status' : status,
 									'priority' : priority,
 									'title' : title
-								};
+								};//A JS object containing the issue information
 								switch(priority){
 									case "Undefined":
 										nbUndefined= nbUndefined +1;
@@ -81,7 +82,7 @@ module.exports = {
 									default :
 										console.log(priority);
 										break;
-								}
+								}//To get the number of priorities , regarding the priority
 								switch(status){
 									case 'A faire':
 										nbOpen = nbOpen + 1;
@@ -95,7 +96,7 @@ module.exports = {
 									default:
 										console.log(status);
 										break;
-								}
+								}//To get the number of priorities , regarding the status
 								IssuesList.push(issueDescription);
 								if(IssuesList.length == IssuesTab.length){
 									jobCallback(null, {title: config.widgetTitle, project : config.project, 
