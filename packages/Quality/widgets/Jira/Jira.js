@@ -6,31 +6,31 @@ widget = {
 		}
 
 		//Function to sort the issues by id
-		function idSort(obj1,obj2){
-			if (obj1.title < obj2.title) return -1;
-			else if (obj1.title == obj2.title) return 0;
+		function idSort(issue1,issue2){
+			if (issue1.title < issue2.title) return -1;
+			else if (issue1.title == issue2.title) return 0;
 			else return 1;
 		}
 
 		//Function to sort the issues by priority
 
-		function priorSort(obj1,obj2){
+		function priorSort(issue1,issue2){
 			var result = 0;
-			switch(obj1.priority){
+			switch(issue1.priority){
 				case 'Undefined':
-					if(!(obj2.priority === 'Undefined')){
+					if(!(issue2.priority === 'Undefined')){
 						result = -1;
 					}
 					break;
 				case 'Majeure':
-					if(!(obj2.priority === 'Majeure')){
+					if(!(issue2.priority === 'Majeure')){
 						result = 1;
 					}
 					break;
 				case 'Secondaire':
-					if(obj2.priority === 'Majeure'){
+					if(issue2.priority === 'Majeure'){
 						result = -1;
-					} else if(obj2.priority === 'Undefined'){
+					} else if(issue2.priority === 'Undefined'){
 						result = 1
 					}
 					break;
@@ -81,7 +81,16 @@ widget = {
 
 		//IssuesList
 		$IssuesList = $('.IssuesList',el);
-		var issues = data.IssuesList.sort(priorSort);
+		$IssuesList.empty();
+
+		$IssuesList.append('<tr class="titre"> ' + 
+			'<th class="priority"> priority </th> ' +
+			'<th class="status"> status </th>' + 
+			'<th class ="type">  type  </th>' +
+			'<th class="title"> title </th> ' +
+		'</tr>');
+
+		var issues = data.IssuesList.sort(idSort).sort(priorSort);
 		var prior = "";
 		console.log($IssuesList);
 		issues.forEach(function(issue){
