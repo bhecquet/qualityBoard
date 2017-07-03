@@ -12,7 +12,9 @@ The dashboard is made of widgets each concerning a specific aspect or software.
 
 The first widget shows SonarQube's relevant metrics, and a graphic of the global evolution of the project regarding to the technical debts. A full part of this widget is dedicated to the test and a graphic enlights the evolution of the project's coverage. 
 
-In the futur two more widgets will be created to show Jira and SquashTM informations. 
+The Second widget contains Jira issues. It contains the title and vesrion of the project, informations on the issues and a tab with all the issues and for each a link to the Jira server.
+
+In the futur an other widgets will be created to show SquashTM informations. 
 
 				********************
 				**    First Use   **
@@ -39,14 +41,15 @@ The application will be on the adress :
 				**  Modification  **
 				********************
 
-To modify the project you want informations about, you will have to modify on the document "packages\Quality\dashboard\QualityDashboard.json" the project in "projectName" and "SonarQube". 
+To modify the project you want informations about, you will have to modify on the document "packages\Quality\dashboard\QualityDashboard.json" the project in each config.
+Be sure you entered the right name for each config. 
 
 
 				********************
 				**     Remarks    **
 				********************
 
-The place of the widget may be modified directly on the application. However be carefull not to throw some out of the screen.
+
 
 				********************
 				**  Useful Links  **
