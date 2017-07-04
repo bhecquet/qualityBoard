@@ -13,7 +13,7 @@
 					"widget" : "Project", "job" : "Project", "config": "projectName"},
 				{"row" : 3, "col" : 1, "width" : 7, "height" : 15,
 					"widget" : "SonarQube", "job" : "SonarQube", "config": "SonarQube"},
-				{"row" : 3, "col" : 18, "width" : 8, "height" : 15,
+				{"row" : 3, "col" : 20, "width" : 12, "height" : 15,
 					"widget" : "Jira", "job" : "Jira", "config": "Jira"}
 			]
 	},
