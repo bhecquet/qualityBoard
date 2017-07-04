@@ -31,7 +31,7 @@
 		<h1 class="title"><%= dashboardConfig.title %></h1>
 		<% } %>
 
-		<div id="widgets-container" class="gridster">
+		<div id="widgets-container" class="gridster" >
 			<ul>
 				<% dashboardConfig.layout.widgets.forEach(function (widget) { %>
 					<li data-row="<%= widget.r || widget.row %>"
