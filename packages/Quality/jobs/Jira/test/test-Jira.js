@@ -1,6 +1,6 @@
 /**
  * Test file for Job: Jira
- */
+ **/
 
 var assert = require ('assert');
 var Jira_SUT = require('../Jira');
@@ -25,9 +25,6 @@ describe ('Jira test', function(){
 		mockedConfig = {
 			'widgetTitle' : 'title'
 		};
-
-
-
 		Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
 			assert.equal(data.title,'title');
 		});
@@ -42,20 +39,36 @@ describe ('Jira test', function(){
 		});
 	});
 
+	describe('Auxilaries functions',function(err,data){
+		describe('getIssuesId',function(err,data){
+			it('should fill IssuesTab with the issue\'s key list',function(){
+				mockedDependencies = {
+					logger: console,
+					request : {
+						get :  function (options,response, cb) {
+							return(null,'{issues : [{key : 12},{key : 13}]}');
+						}
+					}
+				};
+				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
+					assert.deepEqual(IssuesTab,[12,13]);
+				});
+			});
+	
+			it('should should push \'no Issues Found\' if the data are wrong (get IssuesId) ',function(){
+				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(){
+					assert.deepEqual(IssuesTab,['no Issues Found']);
+				});
+			});
+		});
 
-
-	describe('Request return',function(err,data){
-		it('Should return ["No information recieved"] if data in wrong shape',function(){
-
-			mockedConfig = {"widgetTitle" : " Jira ",
-					"authName" : "Jira",
-					"project" : "ENVMONITOR",
-					"jiraServer" : "https://jira.infotel.com",
-					"jiraRequest" : "/rest/api/2/search?",
-					"jiraXML" : "/si/jira.issueviews:issue-xml/"}
-
-			Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
-				assert.deepEqual(data.IssuesList,['No informations recieved']);
+		describe('updateStatVariables',function(err,data){
+			it('should increment the right variables',function(){
+				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
+					var statVar = onRun.updateStatVariables('Majeure','Fini');
+					assert.equal(statVar.nbOpen,1);
+					assert.equal(statVar.nbMajor,10);
+				});
 			});
 		});
 

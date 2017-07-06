@@ -21,7 +21,7 @@
 	"config": {
 		"projectName" : {
 			"interval" : 10000,
-			"project" :  "core"
+			"project" :  "Selenium Test"
 		},
 		"SonarQube" : {
 			"interval" : 10000,

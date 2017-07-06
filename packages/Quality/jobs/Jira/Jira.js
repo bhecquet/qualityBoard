@@ -13,9 +13,6 @@ var parseString = require('xml2js').parseString;
 var IssuesList = [];//issues informations
 var IssuesTab = [];//issues keys
 var Version = [];//Tab of version
-//To count the number of issues by categories
-var nbIssues = nbUndefined = nbSecond = nbMajeur = 0;
-var nbOpen = nbDone = nbInProcess = 0;
 //Adress to the differents informations
 var listeAdress = "";//To get the list of issues
 var issueAdressBase = "";//To get information on an issue
@@ -50,6 +47,9 @@ module.exports = {
 		var IssuesTab = [];
 		var IssuesList = [];
 
+		//To count the number of issues by categories
+		var nbIssues = nbUndefined = nbSecond = nbMajeur = 0;
+		var nbOpen = nbDone = nbInProcess = 0;
 		//get the authentication informations
 		try {
 			var user = config.globalAuth[config.authName].username;
@@ -57,7 +57,6 @@ module.exports = {
 		} catch(e){
 			var user = "error";
 			var password = "error";
-			console.log(e);
 		}
 		//This object will allow the authentication
 		var option = {
@@ -77,7 +76,7 @@ module.exports = {
 			try{
 				request.get(adress,option,function(err,response,data){
 					var issues = JSON.parse(data);
-					issues.issues.forEach(function(issue,pos){
+					issues.issues.forEach(function(issue){
 						IssuesTab.push(issue.key);
 					});
 					global();
@@ -158,6 +157,13 @@ module.exports = {
 					console.log(status);
 					break;
 			}//To get the number of priorities , regarding the status
+			return({nbIssues : nbIssues,
+					nbUndefined : nbUndefined,
+					nbSecond : nbSecond,
+					nbMajeur : nbMajeur,
+					nbOpen : nbOpen,
+					nbDone : nbDone,
+					nbInProcess : nbInProcess});//For the test
 		}
 
 
@@ -172,7 +178,6 @@ module.exports = {
 				} else{
 					IssuesTab.forEach(function(issue){
 						getIssueInformation(issue,IssuesList);
-						
 					});
 				}
 			} else{
