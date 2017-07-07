@@ -1,6 +1,6 @@
 /**
  * Test file for Job: SonarQube
- */
+ **/
 
 var assert = require ('assert');
 var SonarQube_SUT = require('../SonarQube');
@@ -13,7 +13,7 @@ describe('SonarQube Job', function(){
 			logger: console,
 			request : {
 				get :  function (options,response, cb) {
-					return(null, {});
+					cb(null, {});
 				}
 			}
 		};
@@ -42,11 +42,11 @@ describe('SonarQube Job', function(){
 	});
 
 	describe('data recuperation', function(){
-		beforeEach(function(){
+		beforeEach(function(done){
 			mockedDependencies = {
 				request : {
 					get :function(options,response, cb){
-						return(null,
+						cb(null,
 							{"component":
 								{"id":"AVUqWL3s63m25aHrZhrY","key":"com.infotel.seleniumRobot:core","name":"core",
 								"description":"Something usefull here",
@@ -55,7 +55,8 @@ describe('SonarQube Job', function(){
 										{"index":2,"value":"0.0"},
 										{"index":3,"value":"0.0"}]
 									}]
-								}});
+								}
+							});
 					}
 				}		
 			} 
@@ -66,7 +67,7 @@ describe('SonarQube Job', function(){
 								'metricList' : ['coverage'],
 								'testList' : ['coverage']
 								};
-			return(mockedDependencies,config);
+			done();
 		});
 
 
@@ -78,13 +79,14 @@ describe('SonarQube Job', function(){
 
 		});
 
-		it('Should return the metric name and value in a tab',function(){
+		it('Should return the metric name and value in a tab',function(done){
 			SonarQube_SUT.onRun(config,mockedDependencies,function(err,data){
 				assert.deepEqual(data.metricValues,[{"metric":"coverage","value":"46.7",
 									"periods":[{"index":1,"value":"1.4000000000000057"},
 										{"index":2,"value":"0.0"},
 										{"index":3,"value":"0.0"}]
 									}])
+				done();
 			});
 
 		});
@@ -93,7 +95,7 @@ describe('SonarQube Job', function(){
 			mockedDependencies = {
 				request : {
 					get :function(options,cb){
-						return(null,
+						cb(null,
 							[{"cels": [{"v" : [10]},{"v" : [2]}]
 								}]);
 					}	
@@ -108,7 +110,7 @@ describe('SonarQube Job', function(){
 			mockedDependencies = {
 				request : {
 					get :function(options,response,cb){
-						return(null,
+						cb(null,
 							[{"cells": [{"v" : [10]},{"v" : [2]}]
 								}]);
 					}
@@ -128,7 +130,7 @@ describe('SonarQube Job', function(){
 			mockedDependencies = {
 				request : {
 					get :function(options,response,cb){
-						return(null,
+						cb(null,
 							{"errors":[{"msg":"The following metric keys are not found: metrics written wrong"}]});
 					}
 				}
@@ -146,7 +148,7 @@ describe('SonarQube Job', function(){
 			mockedDependencies = {
 				request : {
 					get :function(options,response,cb){
-						return(null,
+						cb(null,
 							{"errors":[{"msg":"The following metric keys are not found: metrics written wrong"}]});
 					}
 				}

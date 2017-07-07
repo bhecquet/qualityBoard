@@ -68,7 +68,7 @@ module.exports = {
 		//Those adress will be use to get information on the Jira server
 		listeAdress = config.jiraServer + config.jiraRequest + "key=" + config.project + "&maxResults=500";
 				//MaxResult to get the 500 first issue(default = 50)
-		issueAdressBase = config.jiraServer + config.jiraXML + '<issue>' + "/" + '<issue>' + ".xml";
+		issueAdressBase = config.jiraServer + config.jiraIssueRequest;
 				//the <issue> part wil be change into the real issue key
 
 		//Function to fill the IssuesTab
@@ -88,30 +88,29 @@ module.exports = {
 
 		//Function to get the informations of a given issue
 		function getIssueInformation(issueId,IssuesList){
-			issueAdress = issueAdressBase.replace(/<issue>/gi, issueId);
+			issueAdress = issueAdressBase.replace(/<issueKey>/gi, issueId);
 			request.get(issueAdress,option,function(err,response,body){
 				try{
-					parseString(body,function(err,data){
-						//Get all useful informations in a js object
-						var type =  data.rss.channel[0].item[0].type[0]._;
-						var status =  data.rss.channel[0].item[0].status[0]._;
-						var priority = data.rss.channel[0].item[0].priority[0]._;
-						var title = data.rss.channel[0].item[0].title[0];
-						var id = data.rss.channel[0].item[0].key[0]._;
-						var version = data.rss.$.version;
-						var issueDescription = {
-							'id' : id,
-							'type' : type,
-							'status' : status,
-							'priority' : priority,
-							'title' : title
-						};	
-						IssuesList.push(issueDescription);
-						Version.push(version);
+					var data = JSON.parse(body);
+					//Get all useful informations in a js object
+					var type =  data.fields.issuetype.name;
+					var status =  data.fields.status.name;
+					var priority = data.fields.priority.name;
+					var title = data.fields.summary;
+					var id = issueId;
+					//var version = data.rss.$.version;
+					var issueDescription = {
+						'id' : id,
+						'type' : type,
+						'status' : status,
+						'priority' : priority,
+						'title' : title
+					};
+					IssuesList.push(issueDescription);
+					//Version.push(version);
 
-						//Increment the global variables
-						updateStatVariables(priority,status);
-					});
+					//Increment the global variables
+					updateStatVariables(priority,status);
 				}catch(e){
 					IssuesList.push("");
 				}

@@ -41,18 +41,22 @@ describe ('Jira test', function(){
 
 	describe('Auxilaries functions',function(err,data){
 		describe('getIssuesId',function(err,data){
-			it('should fill IssuesTab with the issue\'s key list',function(){
+			it('should fill IssuesTab with the issue\'s key list',function(done){
 				mockedDependencies = {
 					logger: console,
 					request : {
-						get :  function (options,response, cb) {
-							return(null,'{issues : [{key : 12},{key : 13}]}');
+						get :  function (adress,option, cb) {
+							return(null,'test','{issues : [{key : 12},{key : 13}]}');
 						}
 					}
 				};
 				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
-					assert.deepEqual(IssuesTab,[12,13]);
+					console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§affiche' + data.IssuesTab);
+					assert.deepEqual(data.IssuesTab,[12,13]);
+					done();
 				});
+
+				
 			});
 	
 			it('should should push \'no Issues Found\' if the data are wrong (get IssuesId) ',function(){

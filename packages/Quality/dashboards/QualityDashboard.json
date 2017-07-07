@@ -48,7 +48,7 @@
 			"project" : "ENVMONITOR",
 			"jiraServer" : "https://jira.infotel.com",
 			"jiraRequest" : "/rest/api/2/search?",
-			"jiraXML" : "/si/jira.issueviews:issue-xml/"
+			"jiraIssueRequest" : "/rest/api/2/issue/<issueKey>"
 		}
 	}
 }

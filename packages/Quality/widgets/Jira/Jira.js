@@ -20,8 +20,8 @@ widget = {
 		// Functions to sort the different issues
 			//Function to sort the issues by id
 				function idSort(issue1,issue2){
-					if (issue1.title < issue2.title) return -1;
-					else if (issue1.title == issue2.title) return 0;
+					if (issue1.id < issue2.id) return -1;
+					else if (issue1.id == issue2.id) return 0;
 					else return 1;
 				}
 
@@ -121,6 +121,7 @@ widget = {
 
 		//Title of the table
 		$IssuesList.append('<tr class="titre"> ' + 
+			'<th class="id"> id </th> ' +
 			'<th class="priority"> priority </th> ' +
 			'<th class="status"> status </th>' + 
 			'<th class ="type">  type  </th>' +
@@ -161,6 +162,7 @@ widget = {
 								//IssuesTab is the tab of the issues, it will be show on the widget
 					$IssuesList.append(
 								'<tr class="' + prior +'"> ' + 
+									'<th class="id">   ' + id + '</th>' +
 									'<th class="priority">   ' + priority + '</th>' +
 									'<th class="status">   ' + status + '</th>' + 
 									'<th class ="type">   ' + type + '</th>' +
