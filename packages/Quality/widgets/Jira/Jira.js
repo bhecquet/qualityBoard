@@ -108,6 +108,9 @@ widget = {
 		$IssuesList = $('.IssuesList',el);
 		$IssuesList.empty();
 
+		//Global content
+		$content = $('.content',el);
+
 		//Title of the table
 		$IssuesList.append('<tr class="titre"> ' + 
 			'<th class="id"> id </th> ' +
@@ -118,11 +121,10 @@ widget = {
 			'<th class="title"> title </th> ' +
 		'</tr>');
 
-		console.log(data.IssuesList);
-
 		if(data.IssuesList.length > 0){
-		var issues = data.IssuesList.sort(idSort).sort(priorSort);
-		var prior = "";
+			console.log(data.IssuesList);
+			var issues = data.IssuesList.sort(idSort).sort(priorSort);
+			var prior = "";
 			issues.forEach(function(issue){
 					prior = "";
 					//The background of the issue will depands of its priority
@@ -163,8 +165,8 @@ widget = {
 							);			
 				});
 		} else{
-			$IssuesList.empty();
-			$IssuesList.append('<span class="error">' + data.IssuesList + '</span>');
+			$content.empty();
+			$content.append('<span class="error">' +'No informations recieved'+ '</span>');
 		}
 	}
 };
