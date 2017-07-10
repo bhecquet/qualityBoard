@@ -9,13 +9,13 @@ widget = {
 
 		//Adress to the issues by stats
 
-		var majorURL = "https://jira.infotel.com/browse/ENVMONITOR-38?jql=project%20%3D%20ENVMONITOR%20and%20priority%20%3D%20Major";
-		var undefinedURL = "https://jira.infotel.com/browse/ENVMONITOR-37?jql=project%20%3D%20ENVMONITOR%20and%20priority%20%3D%20Undefined";
-		var secondURL = "https://jira.infotel.com/browse/ENVMONITOR-47?jql=project%20%3D%20ENVMONITOR%20and%20priority%20%3D%20Secondaire";
+		var majorURL = data.jiraServer + "/browse/ENVMONITOR-38?jql=project%20%3D%20ENVMONITOR%20and%20priority%20%3D%20Major";
+		var undefinedURL = data.jiraServer + "/browse/ENVMONITOR-37?jql=project%20%3D%20ENVMONITOR%20and%20priority%20%3D%20Undefined";
+		var secondURL = data.jiraServer + "/browse/ENVMONITOR-47?jql=project%20%3D%20ENVMONITOR%20and%20priority%20%3D%20Secondaire";
 
-		var toDoURL = "https://jira.infotel.com/browse/ENVMONITOR-61?jql=project%20%3D%20%22Outil%20de%20supervision%20des%20environnements%20de%20validation%22%20%20and%20statusCategory%20%3D%20%22To%20Do%22%20%20";
-		var inProgressURL = "https://jira.infotel.com/browse/ENVMONITOR-57?jql=project%20%3D%20%22Outil%20de%20supervision%20des%20environnements%20de%20validation%22%20%20and%20statusCategory%20%3D%20%22In%20Progress%22%20%20%20";
-		var doneURL = "https://jira.infotel.com/browse/ENVMONITOR-55?jql=project%20%3D%20%22Outil%20de%20supervision%20des%20environnements%20de%20validation%22%20%20and%20statusCategory%20%3D%20Done%20%20%20%20";
+		var toDoURL = data.jiraServer + "/browse/ENVMONITOR-61?jql=project%20%3D%20%22Outil%20de%20supervision%20des%20environnements%20de%20validation%22%20%20and%20statusCategory%20%3D%20%22To%20Do%22%20%20";
+		var inProgressURL = data.jiraServer + "/browse/ENVMONITOR-57?jql=project%20%3D%20%22Outil%20de%20supervision%20des%20environnements%20de%20validation%22%20%20and%20statusCategory%20%3D%20%22In%20Progress%22%20%20%20";
+		var doneURL = data.jiraServer + "/browse/ENVMONITOR-55?jql=project%20%3D%20%22Outil%20de%20supervision%20des%20environnements%20de%20validation%22%20%20and%20statusCategory%20%3D%20Done%20%20%20%20";
 
 		// Functions to sort the different issues
 			//Function to sort the issues by id
@@ -66,18 +66,7 @@ widget = {
 				'<span class="libele"> project : </span> <span class="figure"> ' + data.project
 			);
 		}
-		
-
-		//Version
-		$version = $('.version',el);
-		$version.empty();
-		if(data.version){
-			$version.append(
-					'<span class="libele"> version : </span> <span class="figure"> ' + data.version
-				);
-		}
-
-		
+			
 
 		//The number of issues : 
 
@@ -122,6 +111,7 @@ widget = {
 		//Title of the table
 		$IssuesList.append('<tr class="titre"> ' + 
 			'<th class="id"> id </th> ' +
+			'<th class="version">Versions</th>' +
 			'<th class="priority"> priority </th> ' +
 			'<th class="status"> status </th>' + 
 			'<th class ="type">  type  </th>' +
@@ -152,6 +142,7 @@ widget = {
 					}
 					//Get all the informations
 					var id = issue.id;
+					var version = issue.versions;
 					var priority = issue.priority;
 					var status = issue.status;
 					var type = issue.type;
@@ -163,6 +154,7 @@ widget = {
 					$IssuesList.append(
 								'<tr class="' + prior +'"> ' + 
 									'<th class="id">   ' + id + '</th>' +
+									'<th class="version">   ' + version + '</th>' +
 									'<th class="priority">   ' + priority + '</th>' +
 									'<th class="status">   ' + status + '</th>' + 
 									'<th class ="type">   ' + type + '</th>' +

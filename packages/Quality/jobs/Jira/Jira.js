@@ -98,17 +98,24 @@ module.exports = {
 					var priority = data.fields.priority.name;
 					var title = data.fields.summary;
 					var id = issueId;
-					//var version = data.rss.$.version;
+					var versions = ['none'];
+					if (data.fields.fixVersions.length > 0){
+						var versions = [];
+						data.fields.fixVersions.forEach(function(v){
+							versions.push(v.name);
+						});
+					} else{
+						//var versions = ['none'];
+					}
 					var issueDescription = {
 						'id' : id,
 						'type' : type,
 						'status' : status,
 						'priority' : priority,
-						'title' : title
+						'title' : title,
+						'versions' : versions
 					};
 					IssuesList.push(issueDescription);
-					//Version.push(version);
-
 					//Increment the global variables
 					updateStatVariables(priority,status);
 				}catch(e){
@@ -120,7 +127,7 @@ module.exports = {
 										nbOpen : nbOpen, nbIssues : nbIssues, nbDone : nbDone,
 										nbInProcess : nbInProcess, nbMajeur : nbMajeur,
 										nbSecond : nbSecond, nbUndefined : nbUndefined,
-										version : Version[0]});
+										jiraServer : config.jiraServer});
 				}
 			});
 		}
