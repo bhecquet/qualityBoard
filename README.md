@@ -41,8 +41,21 @@ The application will be on the adress :
 				**  Modification  **
 				********************
 
-To modify the project you want informations about, you will have to modify on the document "packages\Quality\dashboard\QualityDashboard.json" the project in each config.
-Be sure you entered the right name for each config. 
+##Global configuration
+
+	To modify the project you want informations about, you will have to modify on the document "packages\Quality\dashboard\QualityDashboard.json" the project in each config.
+
+	Be sure you entered the right name for each config. 
+
+##Authetication
+	
+	In the "globalAuth.json" file at the root of the project, be sure you add your username and password for each server.
+
+##Jira Widget
+	
+	In this widget, you may choose a version you want informations on. In the "QualityDashboard.json" file, you can write the name of the version in the "jiraVersionFilter" parameter.
+
+	By default, the parameter is 'none' : it means that all issues will be shown.
 
 
 				********************

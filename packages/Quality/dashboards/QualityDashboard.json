@@ -49,7 +49,8 @@
 			"jiraServer" : "https://jira.infotel.com",
 			"jiraRequest" : "/rest/api/2/search?",
 			"jiraIssueRequest" : "/rest/api/2/issue/<issueKey>",
-			"jiraVersionRequest" : "/rest/api/2/project/<project>/versions"
+			"jiraVersionRequest" : "/rest/api/2/project/<project>/versions",
+			"VersionFilter" : "none"
 		}
 	}
 }

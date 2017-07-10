@@ -120,7 +120,7 @@ widget = {
 
 		console.log(data.IssuesList);
 
-		if(data.IssuesList.length > 1){
+		if(data.IssuesList.length > 0){
 		var issues = data.IssuesList.sort(idSort).sort(priorSort);
 		var prior = "";
 			issues.forEach(function(issue){

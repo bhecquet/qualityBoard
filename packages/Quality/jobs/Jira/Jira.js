@@ -16,10 +16,7 @@ var Version = [];//Tab of version
 //Adress to the differents informations
 var listeAdress = "";//To get the list of issues
 var issueAdressBase = "";//To get information on an issue
-//Just so that it works...
-// var version = 0.12;
-
-
+var versionAdress = ""; //Ti get the version id
 
 /*
 * Export module, to send info to the widget
@@ -29,7 +26,7 @@ module.exports = {
 	onInit: function (config, dependencies) {
 		/*
 		* The onInit part is called once at the 
-		* beginning. It is use to configur path for
+		* beginning. It is use to configure path for
 		* example.
 		*/
 	
@@ -70,19 +67,64 @@ module.exports = {
 				//MaxResult to get the 500 first issue(default = 50)
 		issueAdressBase = config.jiraServer + config.jiraIssueRequest;
 				//the <issue> part wil be change into the real issue key
+		versionAdress = config.jiraServer + config.jiraVersionRequest;
+
+
+		var VersionFilter = config.VersionFilter;
+
+		//Function to see if a value is in a tab
+		function isIn(value,tab){
+			var result = false;
+			if(tab.length > 0){
+				tab.forEach(function(v){
+					if(v.name == value){
+						result = true;
+					}
+				});
+			}
+			return result;
+		}
+
+
+		function getVersionId(){
+			return new Promise(function(resolve,reject){
+				var versionId = 0;
+				versionAdress = versionAdress.replace(/<project>/gi, config.project);
+				request.get(versionAdress,option,function(err,response,data){
+					var versionFile = JSON.parse(data);
+					versionFile.forEach(function(v){
+						if(v.name == VersionFilter){
+							versionId = v.id;
+						}
+					});
+					resolve(versionId);
+				});
+			});
+		}
+		getVersionId('2.0').then(function(data){
+			var test = data;
+		});
 
 		//Function to fill the IssuesTab
-		function getIssuesId(adress,IssuesTab){
+		function getIssuesId(adress,IssuesTab,version){
 			try{
 				request.get(adress,option,function(err,response,data){
 					var issues = JSON.parse(data);
 					issues.issues.forEach(function(issue){
-						IssuesTab.push(issue.key);
+						if(version == 'none'){
+							IssuesTab.push(issue.key);
+						}else{
+							if(isIn(VersionFilter,issue.fields.fixVersions)){
+								IssuesTab.push(issue.key);
+							}
+						}
+						console.log(IssuesTab);
 					});
 					global();
 				});
 			} catch(e){
 				IssuesTab.push('no Issues Found');
+				jobCallback(null,{title : config.widgetTitle,IssuesList : IssuesTab});
 			}
 		}
 
@@ -104,8 +146,6 @@ module.exports = {
 						data.fields.fixVersions.forEach(function(v){
 							versions.push(v.name);
 						});
-					} else{
-						//var versions = ['none'];
 					}
 					var issueDescription = {
 						'id' : id,
@@ -169,7 +209,7 @@ module.exports = {
 					nbMajeur : nbMajeur,
 					nbOpen : nbOpen,
 					nbDone : nbDone,
-					nbInProcess : nbInProcess});//For the test
+					nbInProcess : nbInProcess});//For the tests
 		}
 
 
@@ -191,6 +231,6 @@ module.exports = {
 			}	
 		}
 
-		getIssuesId(listeAdress,IssuesTab);
+		getIssuesId(listeAdress,IssuesTab,VersionFilter);
 	}
 };
