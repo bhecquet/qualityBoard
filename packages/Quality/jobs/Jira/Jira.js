@@ -118,7 +118,6 @@ module.exports = {
 								IssuesTab.push(issue.key);
 							}
 						}
-						console.log(IssuesTab);
 					});
 					global();
 				});

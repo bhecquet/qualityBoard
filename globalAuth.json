@@ -1,7 +1,7 @@
 {
     "Jira":{
-        "username":"TIDU",
-        "password":"$ecret1942"
+        "username":"$username",
+        "password":"$PassWord"
     },
     "SonarQube":{
     	"username":"user",
