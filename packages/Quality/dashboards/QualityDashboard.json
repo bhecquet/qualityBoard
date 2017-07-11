@@ -14,7 +14,9 @@
 				{"row" : 3, "col" : 1, "width" : 7, "height" : 15,
 					"widget" : "SonarQube", "job" : "SonarQube", "config": "SonarQube"},
 				{"row" : 3, "col" : 20, "width" : 12, "height" : 15,
-					"widget" : "Jira", "job" : "Jira", "config": "Jira"}
+					"widget" : "Jira", "job" : "Jira", "config": "Jira"},
+				{"row" : 17, "col" : 1, "width" :7, "height" : 10,
+					"widget" : "Jenkins", "job" : "Jenkins", "config": "Jenkins"}
 			]
 	},
 
@@ -51,6 +53,10 @@
 			"jiraIssueRequest" : "/rest/api/2/issue/<issueKey>",
 			"jiraVersionRequest" : "/rest/api/2/project/<project>/versions",
 			"VersionFilter" : "none"
+		},
+		"Jenkins" : {
+			"interval" : 10000,
+			"widgetTitle" : "Jenkins"
 		}
 	}
 }
