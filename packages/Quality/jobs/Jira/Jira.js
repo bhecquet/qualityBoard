@@ -2,7 +2,6 @@
 **		 Jira Module 	  **
 ****************************/
 
-
 /*
 * declaration of variables
 */
@@ -16,7 +15,7 @@ var Version = [];//Tab of version
 //Adress to the differents informations
 var listeAdress = "";//To get the list of issues
 var issueAdressBase = "";//To get information on an issue
-var versionAdress = ""; //Ti get the version id
+var versionAdress = ""; //To get the version id
 
 /*
 * Export module, to send info to the widget
@@ -86,43 +85,33 @@ module.exports = {
 		}
 
 
-		function getVersionId(){
-			return new Promise(function(resolve,reject){
-				var versionId = 0;
-				versionAdress = versionAdress.replace(/<project>/gi, config.project);
-				request.get(versionAdress,option,function(err,response,data){
-					var versionFile = JSON.parse(data);
-					versionFile.forEach(function(v){
-						if(v.name == VersionFilter){
-							versionId = v.id;
-						}
-					});
-					resolve(versionId);
-				});
-			});
-		}
-		getVersionId('2.0').then(function(data){
-			var test = data;
-		});
-
 		//Function to fill the IssuesTab
 		function getIssuesId(adress,IssuesTab,version){
 			try{
 				request.get(adress,option,function(err,response,data){
-					var issues = JSON.parse(data);
-					issues.issues.forEach(function(issue){
-						if(version == 'none'){
-							IssuesTab.push(issue.key);
-						}else{
-							if(isIn(VersionFilter,issue.fields.fixVersions)){
+					try{
+						var issues = JSON.parse(data);
+					} catch(e){
+						var issues = {'issues' : 'none'};
+					}
+					try{
+						issues.issues.forEach(function(issue){
+							if(version == 'none'){
 								IssuesTab.push(issue.key);
+							}else{
+								if(isIn(VersionFilter,issue.fields.fixVersions)){
+									IssuesTab.push(issue.key);
+								}
 							}
-						}
-					});
-					global();
+						});
+					} catch (e){
+						console.log(e);
+						IssuesTab = ['Authentication error'];
+					}
+					global(IssuesTab);
 				});
 			} catch(e){
-				IssuesTab.push('no Issues Found');
+				IssuesTab.push('Authentication error');
 				jobCallback(null,{title : config.widgetTitle,IssuesList : IssuesTab});
 			}
 		}
@@ -213,12 +202,14 @@ module.exports = {
 
 
 
-		function global(){
+		function global(IssuesTab){
 			//Get the issues
 			//get the information
 			//callBack
 			if(IssuesTab.length > 0){
-				if(IssuesTab[0] == 'no Issues Found'){
+				if(IssuesTab[0] === 'no Issues Found'){
+					jobCallback(null,{title : config.widgetTitle, IssuesList : IssuesTab});
+				}else if(IssuesTab[0] === 'Authentication error'){
 					jobCallback(null,{title : config.widgetTitle, IssuesList : IssuesTab});
 				} else{
 					IssuesTab.forEach(function(issue){
@@ -232,4 +223,5 @@ module.exports = {
 
 		getIssuesId(listeAdress,IssuesTab,VersionFilter);
 	}
+
 };

@@ -1,6 +1,15 @@
 widget = {
 		
+	onInit: function(el){
+		var $content = ('.content',el);
+		$content.appand('Hello world !! ');
+		console.log('§§§§§§§§§§§§§§§§§§Nya§§§§§§§§§§§§§§§§§');
+	},
+
+
 	onData: function (el, data) {
+
+		console.log('§§§§§§§§§§§§§§§§§§Nya§§§§§§§§§§§§§§§§§');
 
 		//Title of the widget : the server name
 		if (data.title) {
@@ -121,50 +130,65 @@ widget = {
 			'<th class="title"> title </th> ' +
 		'</tr>');
 
-		if(data.IssuesList.length > 0){
-			console.log(data.IssuesList);
-			var issues = data.IssuesList.sort(idSort).sort(priorSort);
-			var prior = "";
-			issues.forEach(function(issue){
-					prior = "";
-					//The background of the issue will depands of its priority
-					switch(issue.priority){
-						case 'Undefined':
-							prior = "undefined";
-							break;
-						case 'Majeure':
-							prior = 'major';
-							break;
-						case 'Secondaire':
-							prior = 'second';
-							break;
-						default:
-							prior = 'error';
-							break;
-					}
-					//Get all the informations
-					var id = issue.id;
-					var version = issue.versions;
-					var priority = issue.priority;
-					var status = issue.status;
-					var type = issue.type;
-					var title = issue.title;
-					var adress = data.jiraServer + '/projects/' + data.project + 
-								'/issues/' + id;//url of the real issue on Jira
-					
-								//IssuesTab is the tab of the issues, it will be show on the widget
-					$IssuesList.append(
-								'<tr class="' + prior +'"> ' + 
-									'<th class="id">   ' + id + '</th>' +
-									'<th class="version">   ' + version + '</th>' +
-									'<th class="priority">   ' + priority + '</th>' +
-									'<th class="status">   ' + status + '</th>' + 
-									'<th class ="type">   ' + type + '</th>' +
-									'<th class="title"> <a href="' + adress +'">' + title + '</a></th>' +//Link to the issue on Jira
-								'</tr>'
-							);			
-				});
-		} else{
+		console.log(data.IssuesList);
+
+		if(data.IssuesList.length>0){
+				//If there is an authentication problem
+			if(data.IssuesList[0] === 'Authentication error'){
+				$content.empty();
+				$content.append('<span class="error"> Authentication Error </span>');
+			}else{
+				//If no informations in recieved
+				if(data.IssuesList[0]==='No informations recieved'){
+					$content.empty();
+					$content.append('<span class="error">' +'No informations recieved'+ '</span>');	
+				}//On a sunny day case
+				else{
+					var issues = data.IssuesList.sort(idSort).sort(priorSort);
+					var prior = "";
+					issues.forEach(function(issue){
+							prior = "";
+							//The background of the issue will depands of its priority
+							switch(issue.priority){
+								case 'Undefined':
+									prior = "undefined";
+									break;
+								case 'Majeure':
+									prior = 'major';
+									break;
+								case 'Secondaire':
+									prior = 'second';
+									break;
+								default:
+									prior = 'error';
+									break;
+							}
+							//Get all the informations
+							var id = issue.id;
+							var version = issue.versions;
+							var priority = issue.priority;
+							var status = issue.status;
+							var type = issue.type;
+							var title = issue.title;
+							var adress = data.jiraServer + '/projects/' + data.project + 
+										'/issues/' + id;//url of the real issue on Jira
+							
+										//IssuesTab is the tab of the issues, it will be show on the widget
+							$IssuesList.append(
+										'<tr class="' + prior +'"> ' + 
+											'<th class="id">   ' + id + '</th>' +
+											'<th class="version">   ' + version + '</th>' +
+											'<th class="priority">   ' + priority + '</th>' +
+											'<th class="status">   ' + status + '</th>' + 
+											'<th class ="type">   ' + type + '</th>' +
+											'<th class="title"> <a href="' + adress +'">' + title + '</a></th>' +//Link to the issue on Jira
+										'</tr>'
+									);			
+					});
+				}
+			}
+			//If an empty tab is recieved
+		}else{
 			$content.empty();
 			$content.append('<span class="error">' +'No informations recieved'+ '</span>');
 		}
