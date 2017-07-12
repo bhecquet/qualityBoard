@@ -54,7 +54,8 @@
 			"jiraVersionRequest" : "/rest/api/2/project/<project>/versions",
 			"VersionFilter" : "none",
 			"PriorityFilters" : [],
-			"StatusFilters" : []
+			"StatusFilters" : [],
+			"TypeFilters": []
 		},
 		"Jenkins" : {
 			"interval" : 10000,

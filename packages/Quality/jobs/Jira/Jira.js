@@ -39,20 +39,20 @@ module.exports = {
 
 		//Define the request method
 
-		var request = dependencies.request;
-		var IssuesTab = [];
-		var IssuesList = [];
+		var request 	= dependencies.request;
+		var IssuesTab 	= [];
+		var IssuesList 	= [];
 
 		//To count the number of issues by categories
-		var nbIssues = nbUndefined = nbSecond = nbMajeur = 0;
-		var nbOpen = nbDone = nbInProcess = 0;
+		var nbIssues 	= nbUndefined 	= nbSecond 		= nbMajeur = 0;
+		var nbOpen 		= nbDone 		= nbInProcess 	= 0;
 		//get the authentication informations
 		try {
-			var user = config.globalAuth[config.authName].username;
-			var password = config.globalAuth[config.authName].password;
+			var user 		= config.globalAuth[config.authName].username;
+			var password 	= config.globalAuth[config.authName].password;
 		} catch(e){
-			var user = "error";
-			var password = "error";
+			var user 		= "error";
+			var password 	= "error";
 		}
 		//This object will allow the authentication
 		var option = {
@@ -62,21 +62,60 @@ module.exports = {
 			}
 		};
 		//Those adress will be use to get information on the Jira server
-		listeAdress = config.jiraServer + config.jiraRequest + "key=" + config.project + "&maxResults=500";
+		listeAdress 	= config.jiraServer + config.jiraRequest + "key=" + config.project + "&maxResults=500";
 				//MaxResult to get the 500 first issue(default = 50)
 		issueAdressBase = config.jiraServer + config.jiraIssueRequest;
 				//the <issue> part wil be change into the real issue key
-		versionAdress = config.jiraServer + config.jiraVersionRequest;
+		versionAdress 	= config.jiraServer + config.jiraVersionRequest;
 
+		//var of the differents criteria
+		var PriorityFilters	= config.PriorityFilters;
+		var StatusFilters	= config.StatusFilters;
+		var TypeFilters 	= config.TypeFilters;
+		var VersionFilter	= config.VersionFilter;
 
-		var VersionFilter = config.VersionFilter;
+		//Check if an issue is to be add, given a criteria list
+		function check(issueValue,criterion){
+			var DoIPushVar = false;
+			if(criterion.length == 0){
+				DoIPushVar 	= true;
+			} else{
+				DoIPushVar 	= isIn(issueValue,PriorityFilters);
+			}
+			return DoIPushVar;
+		}
+
+		//Push the issue if and only if it correspond to the criteria.
+		function pushIfOk(issueDescription,IssuesList){
+			//Each variable concern a gic=ven criterion
+			var DoIPushPrior 	= false;
+			var DoIPushType		= false;
+			var DoIPushStatus	= false;
+
+			//For each type, check if the issue il to be add
+			DoIPushStatus 		= check(issueDescription.status,StatusFilters);
+			DoIPushType			= check(issueDescription.type,TypeFilters);
+			DoIPushPrior		= check(issueDescription.priority,PriorityFilters);
+
+			//If the issue correspond, push it to the tab, else push a similar description
+			if(!(DoIPushStatus && DoIPushPrior && DoIPushType)){
+				issueDescription = {
+					'id'		: 'Invalide',
+					'type' 		: 'Invalide',
+					'status' 	: 'Invalide',
+					'priority' 	: 'Invalide',
+					'title'		: 'Invalide'
+				};
+			}
+			IssuesList.push(issueDescription);
+		}
 
 		//Function to see if a value is in a tab
 		function isIn(value,tab){
 			var result = false;
 			if(tab.length > 0){
 				tab.forEach(function(v){
-					if(v.name == value){
+					if(v == value){
 						result = true;
 					}
 				});
@@ -105,7 +144,6 @@ module.exports = {
 							}
 						});
 					} catch (e){
-						console.log(e);
 						IssuesTab = ['Authentication error'];
 					}
 					global(IssuesTab);
@@ -121,14 +159,13 @@ module.exports = {
 			issueAdress = issueAdressBase.replace(/<issueKey>/gi, issueId);
 			request.get(issueAdress,option,function(err,response,body){
 				try{
-					var data = JSON.parse(body);
+					var data 		= JSON.parse(body);
 					//Get all useful informations in a js object
-					var type =  data.fields.issuetype.name;
-					var status =  data.fields.status.name;
-					var priority = data.fields.priority.name;
-					var title = data.fields.summary;
-					var id = issueId;
-					var versions = ['none'];
+					var type 		=  data.fields.issuetype.name;
+					var status 		=  data.fields.status.name;
+					var priority 	= data.fields.priority.name;
+					var title 		= data.fields.summary;
+					var id 			= issueId;
 					if (data.fields.fixVersions.length > 0){
 						var versions = [];
 						data.fields.fixVersions.forEach(function(v){
@@ -136,14 +173,15 @@ module.exports = {
 						});
 					}
 					var issueDescription = {
-						'id' : id,
-						'type' : type,
-						'status' : status,
-						'priority' : priority,
-						'title' : title,
-						'versions' : versions
+						'id' 		: id,
+						'type' 		: type,
+						'status' 	: status,
+						'priority' 	: priority,
+						'title' 	: title,
 					};
-					IssuesList.push(issueDescription);
+
+					//Add the isue if it correpond
+					pushIfOk(issueDescription,IssuesList);
 					//Increment the global variables
 					updateStatVariables(priority,status);
 				}catch(e){

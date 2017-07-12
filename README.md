@@ -41,21 +41,31 @@ The application will be on the adress :
 				**  Modification  **
 				********************
 
-##Global configuration
+**Global configuration**
 
 	To modify the project you want informations about, you will have to modify on the document "packages\Quality\dashboard\QualityDashboard.json" the project in each config.
 
 	Be sure you entered the right name for each config. 
 
-##Authetication
+**Authetication**
 	
 	In the "globalAuth.json" file at the root of the project, be sure you add your username and password for each server.
 
-##Jira Widget
+**Jira Widget**
 	
-	In this widget, you may choose a version you want informations on. In the "QualityDashboard.json" file, you can write the name of the version in the "jiraVersionFilter" parameter.
+	In this widget, you may add filters. 
 
-	By default, the parameter is 'none' : it means that all issues will be shown.
+	***Version***
+
+		In the "QualityDashboard.json" file, you can write the name of the version you want informations on in the "jiraVersionFilter" parameter. You can only choose one, and it will affect the 'fixVersion', the version in wich the issue will be solved.
+		The default parameter is 'none' : it means that all issues will be shown.
+
+	***Priority,Status and Type***
+
+		Still in the "QualityDashboard.json" file, you may specify filter for priority, type and status of the issues. Those criteria should be add in the correspondant Filter tab, for example a priopity criterion will be add in the PriorityFilter tab. You may add as many criteria as you wish.
+		If there is more than one constraint for a same variable (status, type or priority), an issue will be selected if it as a least one of the given criteria.
+		If there is constraints for more than one variable, an issu will be selected if it correspond to both choices.
+		The default parameter is empty tab, meaning all issues will be shown, considering this variable.
 
 
 				********************

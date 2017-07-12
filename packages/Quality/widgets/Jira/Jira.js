@@ -147,6 +147,7 @@ widget = {
 					var issues = data.IssuesList.sort(idSort).sort(priorSort);
 					var prior = "";
 					issues.forEach(function(issue){
+						if(issue.id != 'Invalide'){
 							prior = "";
 							//The background of the issue will depands of its priority
 							switch(issue.priority){
@@ -183,7 +184,8 @@ widget = {
 											'<th class ="type">   ' + type + '</th>' +
 											'<th class="title"> <a href="' + adress +'">' + title + '</a></th>' +//Link to the issue on Jira
 										'</tr>'
-									);			
+									);
+						}			
 					});
 				}
 			}
