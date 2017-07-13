@@ -38,8 +38,8 @@ module.exports = {
 		*/
 
 		//Define the request method
-
 		var request 	= dependencies.request;
+
 		var IssuesTab 	= [];
 		var IssuesList 	= [];
 

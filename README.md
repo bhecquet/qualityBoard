@@ -26,20 +26,22 @@ At the root of your dashboard, check that the file *globalAuth.json* exist. If i
 That file is use for every authentication on the different servers the dashboard use. Before the first use, and each time you change the user, be sure you update the authentications informations.
 
 If you had to create your own file, here is an example of what it should look like : (it is case sensitive)
->    {
->       "Jira":{
->            "username":"$userName",
->            "password":"$password"
->        },
->        "SonarQube":{
->           "username":"$user",
->           "password":"$password"
->        },
->        "Jenkins":{
->           "username":"$user",
->           "password":"$password"
->        }
->    }
+```json
+   {
+       "Jira":{
+            "username":"$userName",
+            "password":"$password"
+        },
+        "SonarQube":{
+           "username":"$user",
+           "password":"$password"
+        },
+        "Jenkins":{
+           "username":"$user",
+           "password":"$password"
+        }
+    }
+```
 
 **_Warning_**
 Your username and password will be save in this file, make sure you erased them before letting anyone use your computer!
