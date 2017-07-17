@@ -92,7 +92,6 @@ module.exports = {
 									status = job.color;
 								}
 							});
-							console.log(status);
 							resolve(status);
 						}
 					);
@@ -111,32 +110,38 @@ module.exports = {
 					adressJob,
 					option,
 					function(err,response,data){
-						var jobInfo 	= JSON.parse(data);
-						//Get the informations
-						duration		= jobInfo.duration;
-						result 			= jobInfo.result;
-
-						//create the job object
-						var jobDescription = {
-							'name'		: job,
-							'status' 	: status,
-							'duration' 	: duration,
-							'result'	: result
+						if(err){
+							jobsInformation.push({'name' : job,'status' : 'none'});
 						}
-
-						//Push it to the jobsInformation
-						jobsInformation.push(jobDescription);
+						else{
+							try{
+								var jobInfo 	= JSON.parse(data);
+								//Get the informations
+								duration		= jobInfo.duration;
+								result 			= jobInfo.result;
+		
+								//create the job object
+								var jobDescription = {
+									'name'		: job,
+									'status' 	: status,
+									'duration' 	: duration,
+									'result'	: result
+								}
+		
+								//Push it to the jobsInformation
+								jobsInformation.push(jobDescription);
+							}catch(e){
+								jobsInformation.push({'name' : job,'status' : 'none'});
+							}
+						}
 						if(jobsInformation.length == jobList.length){
-							console.log('\n§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ \n\t\ttest \n§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§\n');
-							console.log(jobsInformation);
-							jobCallback(null, {title : config.widgetTitle, jobList : jobsInformation});
+							jobCallback(null, {title : config.widgetTitle, jobList : jobsInformation,jenkinsServer : config.jenkinsServer});
 						}
 					}
 				);
 			}catch(e){
-				console.error(e);
 				jobsInformation.push({'name' : name,'status' : 'none'});
-				jobCallback(null,{title : config.widgetTitle, jobList : jobsInformation});
+				jobCallback(null,{title : config.widgetTitle, jobList : jobsInformation,jenkinsServer : config.jenkinsServer});
 			}
 
 		}
@@ -151,12 +156,12 @@ module.exports = {
 						function(err){
 							jobsInformation.push({'name' : name,'status' : 'none'});
 							console.error(err);
-							jobCallback(null,{title : config.widgetTitle, jobList : jobsInformation});
+							jobCallback(null,{title : config.widgetTitle, jobList : jobsInformation,jenkinsServer : config.jenkinsServer});
 						}
 					);
 				});
 			} catch(e){
-				jobCallback(null, {title: config.widgetTitle,jobList : jobsInformation});
+				jobCallback(null, {title: config.widgetTitle,jobList : jobsInformation,jenkinsServer : config.jenkinsServer});
 			}
 		}
 

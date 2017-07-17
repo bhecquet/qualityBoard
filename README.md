@@ -21,26 +21,26 @@ This dashboard require nodeJS, npm and atlasboard.
 Before using your dashboard for the first time, be sure NodeJS and npm are installed.
 To install atlasboard, use the command  `npm install -g atlasboard` to have it install globally on your computer.
 
-### Authetication
+### Authetication : *globalAuth.json*
 At the root of your dashboard, check that the file *globalAuth.json* exist. If it doesn't, but a file name *globalAuth.json.sample* does, just rename it. If there is no file of that name, create your own. 
 That file is use for every authentication on the different servers the dashboard use. Before the first use, and each time you change the user, be sure you update the authentications informations.
 
 If you had to create your own file, here is an example of what it should look like : (it is case sensitive)
 ```json
-   {
-       "Jira":{
-            "username":"$userName",
-            "password":"$password"
-        },
-        "SonarQube":{
-           "username":"$user",
-           "password":"$password"
-        },
-        "Jenkins":{
-           "username":"$user",
-           "password":"$password"
-        }
-    }
+	{
+		"Jira":{
+			"username":"$userName",
+			"password":"$password"
+		},
+		"SonarQube":{
+			"username":"$user",
+			"password":"$password"
+		},
+		"Jenkins":{
+			"username":"$user",
+			"password":"$password"
+		}
+	}
 ```
 
 **_Warning_**
@@ -66,7 +66,7 @@ You may change the metrics you wants informations about by adding metric names i
 If you want to use anything else than the technical debts to see the global avancment, change the metric id in *Avancment*.
 
 ### Jira
-This is the config linked to the *Jir*a server. Remember to change the project id in _project_.
+This is the config linked to the *Jira* server. Remember to change the project id in _project_.
 In this config, you may add filters for differents variables :  
 
 #### Version
@@ -80,6 +80,9 @@ If there is constraints for more than one variable, an issu will be selected if 
 The default parameter is empty tab, meaning all issues will be shown, considering this variable.
 
 ### Jenkins
+This widget will summarize informations given by the Jenkins server. For this widget, there is no need to specified the project you want informations on.
+
+In this widget, you may select jobs in *jobList*, in *packages/Quality/QualityDashboard*. To display a job, add it's name to the tab. You may add as much names as you wish.
 
 ## Useful Links
 

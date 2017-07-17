@@ -64,7 +64,7 @@
 			"jenkinsServer" : "http://vs-dev15:8082/jenkins",
 			"jenkinsRequest" : "/api/json",
 			"jobRequest" : "/job/<jobName>/lastBuild/api/json",
-			"jobList" : ["envmonitor_install_int_pipe","EnvMonitor_pipeline","infolidays_android","JPetStore_Tests_Services"]
+			"jobList" : ["Angular_pipeline_copy","Angular_pipeline","infolidays_android","JPetStore_Tests_Services"]
 		}
 	}
 }
