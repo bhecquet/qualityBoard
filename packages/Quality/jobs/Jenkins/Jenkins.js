@@ -1,7 +1,4 @@
 module.exports = {
-	onInit: function (config, dependencies) {
-
-	},
 
 	onRun: function (config, dependencies, jobCallback) {
 	   /**
@@ -75,7 +72,7 @@ module.exports = {
 		*********************************************************/
 
 
-		function getJobInformation(job){
+		function getJobInformation(jobName){
 			return new Promise(function(resolve, reject){
 				//First get the status in the jobsAdress part
 				try{
@@ -83,6 +80,7 @@ module.exports = {
 						jobsAdress,
 						option,
 						function(err,response,data){
+							//If error, reject it
 							if(err){
 								reject(err);
 							}
@@ -90,10 +88,11 @@ module.exports = {
 							//!! data is a string, not a JSON object !!
 							var jobsListGlobal = JSON.parse(data).jobs;
 							jobsListGlobal.forEach(function(job){
-								if(job.name == job){
+								if(job.name == jobName){
 									status = job.color;
 								}
 							});
+							console.log(status);
 							resolve(status);
 						}
 					);
@@ -105,7 +104,7 @@ module.exports = {
 
 		//Function use if getJobInformation resolves :
 			//Get job information on the personnal file
-		function getJobPersoInfo(job,data){
+		function getJobPersoInfo(job,status){
 			var adressJob = jobAdressBase.replace(/<jobName>/gi,job);
 			try{
 				dependencies.request.get(
@@ -120,7 +119,7 @@ module.exports = {
 						//create the job object
 						var jobDescription = {
 							'name'		: job,
-							'status' 	: data,
+							'status' 	: status,
 							'duration' 	: duration,
 							'result'	: result
 						}
@@ -128,12 +127,16 @@ module.exports = {
 						//Push it to the jobsInformation
 						jobsInformation.push(jobDescription);
 						if(jobsInformation.length == jobList.length){
+							console.log('\n§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§ \n\t\ttest \n§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§\n');
+							console.log(jobsInformation);
 							jobCallback(null, {title : config.widgetTitle, jobList : jobsInformation});
 						}
 					}
 				);
 			}catch(e){
+				console.error(e);
 				jobsInformation.push({'name' : name,'status' : 'none'});
+				jobCallback(null,{title : config.widgetTitle, jobList : jobsInformation});
 			}
 
 		}
@@ -141,17 +144,17 @@ module.exports = {
 		function main(){
 			try{
 				jobList.forEach(function(job){
-					var job = job;
 					getJobInformation(job).then(
 						function(data){
 							getJobPersoInfo(job,data);
 						},
 						function(err){
 							jobsInformation.push({'name' : name,'status' : 'none'});
+							console.error(err);
+							jobCallback(null,{title : config.widgetTitle, jobList : jobsInformation});
 						}
 					);
 				});
-
 			} catch(e){
 				jobCallback(null, {title: config.widgetTitle,jobList : jobsInformation});
 			}

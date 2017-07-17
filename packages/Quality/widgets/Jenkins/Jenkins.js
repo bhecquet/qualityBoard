@@ -1,13 +1,34 @@
 widget = {
   //runs when we receive data from the job
-  onData: function (el, data) {
+	onData: function (el, data) {
 
-    //The parameters our job passed through are in the data object
-    //el is our widget element, so our actions should all be relative to that
-    if (data.title) {
-      $('h2', el).text(data.title);
-    }
+		if (data.title) {
+			$('.widget-title', el).text(data.title);
+		}
 
-    $('.content', el).html(data.text);
-  }
+	//The main container of the widget
+		var $content = $('.content', el);
+
+		var jobInfo = data.jobList;
+
+		try{
+			//ForEach job, print the different informmations.
+			jobInfo.forEach(function(job){
+				var jobInfoHTML = 
+					`<div class="job">
+						<div class="name"> ${job.name} </div>
+						 <div class="description"> 
+						 	<span class = "title"> Duration  </span><span class = figure> ${job.duration} </span>
+						 	<span class = "title"> Success  </span><span class = figure> ${job.result} </span>
+						 </div>
+						 <div class="status"> ${job.status} </div>
+					</div>`
+				;
+				$content.empty();
+				$content.append(jobInfoHTML);
+			});
+		}catch(e){
+			console.error(e);
+		}
+	}
 };

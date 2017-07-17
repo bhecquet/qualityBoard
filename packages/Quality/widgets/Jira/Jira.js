@@ -1,15 +1,11 @@
 widget = {
 		
 	onInit: function(el){
-		var $content = ('.content',el);
-		$content.appand('Hello world !! ');
-		console.log('§§§§§§§§§§§§§§§§§§Nya§§§§§§§§§§§§§§§§§');
+
 	},
 
 
 	onData: function (el, data) {
-
-		console.log('§§§§§§§§§§§§§§§§§§Nya§§§§§§§§§§§§§§§§§');
 
 		//Title of the widget : the server name
 		if (data.title) {
@@ -129,8 +125,6 @@ widget = {
 			'<th class ="type">  type  </th>' +
 			'<th class="title"> title </th> ' +
 		'</tr>');
-
-		console.log(data.IssuesList);
 
 		if(data.IssuesList.length>0){
 				//If there is an authentication problem
