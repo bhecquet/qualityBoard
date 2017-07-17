@@ -15,7 +15,7 @@
 					"widget" : "SonarQube", "job" : "SonarQube", "config": "SonarQube"},
 				{"row" : 3, "col" : 20, "width" : 12, "height" : 15,
 					"widget" : "Jira", "job" : "Jira", "config": "Jira"},
-				{"row" : 17, "col" : 1, "width" :12, "height" : 10,
+				{"row" : 17, "col" : 1, "width" :10, "height" : 12,
 					"widget" : "Jenkins", "job" : "Jenkins", "config": "Jenkins"}
 			]
 	},
@@ -64,7 +64,7 @@
 			"jenkinsServer" : "http://vs-dev15:8082/jenkins",
 			"jenkinsRequest" : "/api/json",
 			"jobRequest" : "/job/<jobName>/lastBuild/api/json",
-			"jobList" : ["envmonitor_install_int_pipe"]
+			"jobList" : ["envmonitor_install_int_pipe","EnvMonitor_pipeline","infolidays_android","JPetStore_Tests_Services"]
 		}
 	}
 }

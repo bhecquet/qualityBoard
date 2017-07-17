@@ -6,10 +6,18 @@ widget = {
 			$('.widget-title', el).text(data.title);
 		}
 
+	//Function to sort by name
+		function nameSort(job1,job2){
+			if (job1.name < job2.name) return -1;
+			else if (job1.name == job2.name) return 0;
+			else return 1;
+		}
+
 	//The main container of the widget
 		var $content = $('.content', el);
+		$content.empty();
+		var jobInfo = data.jobList.sort(nameSort);
 
-		var jobInfo = data.jobList;
 
 		try{
 			//ForEach job, print the different informmations.
@@ -18,13 +26,12 @@ widget = {
 					`<div class="job">
 						<div class="name"> ${job.name} </div>
 						 <div class="description"> 
-						 	<span class = "title"> Duration  </span><span class = figure> ${job.duration} </span>
-						 	<span class = "title"> Success  </span><span class = figure> ${job.result} </span>
+						 	<span class = "title"> Duration  </span><span class = "figure"> ${job.duration} </span>
+						 	<span class = "title"> Success  </span><span class = "${job.result}"> ${job.result} </span>
 						 </div>
-						 <div class="status"> ${job.status} </div>
+						 <div class="status"> <span class = "title">Status</span> <span class="${job.status}">${job.status} </span> </div>
 					</div>`
 				;
-				$content.empty();
 				$content.append(jobInfoHTML);
 			});
 		}catch(e){
