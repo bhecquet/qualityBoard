@@ -33,11 +33,6 @@ describe ('Jenkins test', function(){
     done();
   });
 
-  it('should have tests :D', function (done){
-    assert.ok(false, 'we don\'t have any tests :(');
-    done();
-  });
-
   describe ('config checks', function(){
     it('should check for valid credentials', function (done){
       // there are some nice examples of how to unit tests configuration handling
@@ -47,19 +42,6 @@ describe ('Jenkins test', function(){
     });
   });
 
-  describe ('http request example tests', function(){
-    it('should handle server errors', function (done){
 
-      mockedDependencies.easyRequest.HTML = function (options, cb){
-        cb(null, 'hello from google');
-      };
-
-      var config = {};
-      Jenkins_SUT.onRun(config, mockedDependencies, function(err, data){
-        assert.equal(data.html, 'hello from google', 'expected a different reply from google: ' + data.html);
-        done();
-      });
-    });
-  });
 
 });

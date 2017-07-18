@@ -25,29 +25,28 @@ module.exports = {
 		var adress = config.metricAdress + config.project + "&metricKeys=";
 
 		/*use request to support the authetication*/
-
-
 		try{
 			list.forEach(function(metrique){
 				adress = config.metricAdress + config.project + "&metricKeys=" + metrique;
-				dependencies.request.get(adress,{
+				dependencies.request.get(adress,
+					{
 						'auth' : {
 							'user' : user,
 							'pass' : password
 						}
 					},
 					function(err,response,body){
-					if(body){
-						//request return a string, not a JSON object
-						var jSonFile = JSON.parse(body);
-						if(jSonFile.component){
-							if(jSonFile.component.measures){
-					 			tab.push(jSonFile.component.measures[0]); 
-							}
-						}else if(jSonFile.err_code){
-							tab.push(jSonFile.err_msg);
-						} else if(jSonFile.errors){
-								tab.push(jSonFile.errors[0]);
+						if(body){
+							//request return a string, not a JSON object
+							var jSonFile = JSON.parse(body);
+							if(jSonFile.component){
+								if(jSonFile.component.measures){
+									tab.push(jSonFile.component.measures[0]); 
+								}
+							}else if(jSonFile.err_code){
+								tab.push(jSonFile.err_msg);
+							} else if(jSonFile.errors){
+									tab.push(jSonFile.errors[0]);
 							}
 						} 
 					}

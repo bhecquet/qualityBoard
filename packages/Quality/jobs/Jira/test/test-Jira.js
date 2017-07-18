@@ -41,7 +41,7 @@ describe ('Jira test', function(){
 
 	describe('Auxilaries functions',function(err,data){
 		describe('getIssuesId',function(err,data){
-			it('should fill IssuesTab with the issue\'s key list',function(done){
+			it('should fill IssuesTab with the issue\'s key list',function(){
 				mockedDependencies = {
 					logger: console,
 					request : {
@@ -51,9 +51,7 @@ describe ('Jira test', function(){
 					}
 				};
 				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
-					console.log('§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§§affiche' + data.IssuesTab);
 					assert.deepEqual(data.IssuesTab,[12,13]);
-					done();
 				});
 
 				
@@ -76,5 +74,38 @@ describe ('Jira test', function(){
 			});
 		});
 
+
+		describe('getIssueInformation',function(err,data){
+			// Sunny Day
+			it('should push the right informations',function(){
+				mockedDependencies = {
+					request : {
+						get :function(adress,options,cb){
+							cb(null,
+								200,
+								`{
+									"fields" : {
+										"issuetype" : {
+											"name" : "type"
+										},
+										"status" : {
+											"name" : "status"
+										},
+										"priority" : {
+											"name" : "prior"
+										},
+										"summary" : "summary"
+									}
+								}`
+							);
+						}	
+					}
+				}
+
+				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
+					// assert.deepEqual(data.IssuesList,[{id : 0, type : 'type', status : 'status', priority : 'prior',title : 'summary'}])
+				});
+			});
+		});
 	});
 });
