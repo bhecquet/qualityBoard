@@ -1,45 +1,51 @@
 .content
-  font-size 1em
-  color $gray-light
-  overflow auto
-  max-height 22em
+	font-size 1em
+	color $gray-light
+	overflow auto
+	max-height 22em
 
-  .job
-  	padding 1%
-  	font-size 1.5em
-  	background-color $background-color
-  	border-radius 30px
-  	margin 1em
+  	.job
+		padding 1.5em
+		font-size 1.5em
+		background-color $background-color
+		border-radius 60px
+		margin 1em
+		border-top-width: 15px
+		border-color: $widget-background-color
+		border-style: solid
+		border-radius: 3em
 
-  	.name
-  		text-align center
-  		color $gray-dark
-  		font-weight bold
+		.name
+			padding-top: 0.5em
+			padding-bottom: 0.5em
+			text-align center
+			color $gray-dark
+			font-weight bold
+			padding-right 2em
+			padding-left +0.5em
+			border-top-left-radius: 40px
+			border-bottom-left-radius: 40px
 
-  	.figure
-  		color $brand-primary
-  		padding-right 3em
-  		font-weight bold
+		.figure
+			color $brand-primary
+			padding-right 3em
+			font-weight bold
 
-  	.SUCCESS
-  		padding-right 2em
-  		font-weight bold 
-  		color $brand-success
-		 		
-  	.FAILURE
-  		color $brand-danger
-  		padding-right 2em
-  		font-weight bold
+		.status
+			margin-right: 0.4em
+			padding-left: 6em
+			border-top-right-radius: 40px
+			border-bottom-right-radius: 40px
 
+		.empty
+			border-top-right-radius: 40px
+			border-bottom-right-radius: 40px
 
-  	.blue
-  		color blue
-
-  	.red
-  		color red
-
-  	.title
-  		padding-right 8em
+		.title
+			padding-right 2em
+			padding-bottom: 2em
+			text-align: center
+			padding-right: 2em
 
 
 	.authenticationError
@@ -56,13 +62,15 @@
 	text-align: center
 	color: $brand-danger
 	font-weight: bold
+	padding-left: 5em
+	padding-right: 1em
 
 a:link
 	color $gray
 	text-decoration none
 
 a:visited
-	color black
+	color $gray
 	text-decoration none
 
 a:hover

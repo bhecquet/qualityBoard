@@ -64,7 +64,7 @@
 			"jenkinsServer" : "http://vs-dev15:8082/jenkins",
 			"jenkinsRequest" : "/api/json",
 			"jobRequest" : "/job/<jobName>/lastBuild/api/json",
-			"jobList" : ["Angular_pipeline_copy","Angular_pipeline","infolidays_android","JPetStore_Tests_Services"]
+			"jobList" : ["Backup","Angular_pipeline","templateSquashTAExecutionMavenJob","JPetStore_Tests_Services"]
 		}
 	}
 }
