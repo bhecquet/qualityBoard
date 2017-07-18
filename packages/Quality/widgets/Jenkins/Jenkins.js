@@ -31,6 +31,11 @@ widget = {
 						</div>`
 					;
 				}
+				else if(job.status == 'authenticationError'){
+					var jobInfoHTML = 
+						`<div class="authenticationError"> Authentication Error </div>` 
+					;
+				}
 				else{
 					var jobInfoHTML = 
 						`<div class="job">

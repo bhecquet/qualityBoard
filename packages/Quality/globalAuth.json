@@ -1,0 +1,14 @@
+{
+    "Jira":{
+        "username":"TIDU",
+        "password":"$ecret1942"
+    },
+    "SonarQube":{
+    	"username":"user",
+    	"password":"infotel35"
+    },
+    "Jenkins":{
+    	"username":"user",
+    	"password":"infotel35"
+    }
+}

@@ -1,3 +1,5 @@
+var parseString = require('xml2js').parseString;
+
 module.exports = {
 
 	onRun: function (config, dependencies, jobCallback) {
@@ -14,16 +16,46 @@ module.exports = {
 			var password 	= "error";
 		}
 		//This object will allow the authentication
-		var option = {
-			'auth' : {
-				'user' : user,
-				'pass' : password
+		var option 	= {
+			'auth' 	: {
+				'user' 		: user,
+				'pass' 		: password
 			}
 		};
 
+		//Check if there is no authentication error
+		function authenticationVerification(option){
+			return new Promise(function(resolve,reject){
+				//This adress send to the jenkins Home Page
+				var testAdress = config.jenkinsServer;
+				dependencies.request.get(
+					testAdress,
+					option,
+					function(err,response,data){
+						try{
+							parseString(data,function(err,body){
+								//If body.html.body[0]._ exist and equals '\n\n\nAuthentication required\n\n\n', there is an authentication Error
+								try{
+									if( body.html.body[0]._ == '\n\n\nAuthentication required\n\n\n'){
+										reject(false);
+									} else{
+										resolve(true);
+									}
+								}catch(e){
+									resolve(true);
+								}				
+							});
+						}catch(e){
+							reject(false);
+						}
+					}
+				);
+			});
+		}
+
 		//Adresses
-		var jobsAdress		= config.jenkinsServer + config.jenkinsRequest;//Adress to the Jenkins job list.
-		var jobAdressBase 	= config.jenkinsServer + config.jobRequest;//Adress of the job informations
+		var jobsAdress		= config.jenkinsServer + config.jenkinsRequest;	//Adress to the Jenkins job list.
+		var jobAdressBase 	= config.jenkinsServer + config.jobRequest;		//Adress of the job informations
 
 		//Job list
 		var jobList 		= config.jobList;
@@ -36,7 +68,7 @@ module.exports = {
 		var status 		= 'none';
 		var duration 	= 'none';
 		var result 		= 'none';
-			//Those variables will be stocked in
+			//Those variables will be stocked in a JSON object for each job
 
 		//Auxilaries function
 
@@ -155,7 +187,6 @@ module.exports = {
 						},
 						function(err){
 							jobsInformation.push({'name' : name,'status' : 'none'});
-							console.error(err);
 							jobCallback(null,{title : config.widgetTitle, jobList : jobsInformation,jenkinsServer : config.jenkinsServer});
 						}
 					);
@@ -165,6 +196,14 @@ module.exports = {
 			}
 		}
 
-		main();
+		authenticationVerification(option).then(
+			function(data){
+				main();
+			},
+			function(err){
+				jobsInformation.push({'status': 'authenticationError'});
+				jobCallback(null, {title: config.widgetTitle,jobList : jobsInformation,jenkinsServer : config.jenkinsServer});
+			}
+		);
 	}
 };
