@@ -1,6 +1,25 @@
 var parseString = require('xml2js').parseString;
 
+
+
+
+
 module.exports = {
+
+//Auxilaries function
+
+	//Return true if a value is in a tab
+	isIn : function(value,tab){
+		var res 	= false;
+		if(tab.length > 0){
+			tab.forEach(function(v){
+				if(v == value){
+					res = true;
+				}
+			});
+		}
+		return res;
+	},
 
 	onRun: function (config, dependencies, jobCallback) {
 	   /**
@@ -70,19 +89,6 @@ module.exports = {
 		var result 		= 'none';
 			//Those variables will be stocked in a JSON object for each job
 
-		//Auxilaries function
-
-			//Return true if a valu is in a tab
-		function isIn(value,tab){
-			var res 	= false;
-			if(tab.length > 0){
-				tab.forEach(function(v){
-					if(v == value){
-						res = true;
-					}
-				});
-			}
-		} 
 
 		//For a given job, return the right informations
 
@@ -143,7 +149,7 @@ module.exports = {
 					option,
 					function(err,response,data){
 						if(err){
-							jobsInformation.push({'name' : job,'status' : 'none'});
+							jobsInformation.push({name : job,status : 'none'});
 						}
 						else{
 							try{
@@ -196,10 +202,13 @@ module.exports = {
 			}
 		}
 
+		//Beginnning of the application
 		authenticationVerification(option).then(
+			//If the authentication works
 			function(data){
 				main();
 			},
+			//else
 			function(err){
 				jobsInformation.push({'status': 'authenticationError'});
 				jobCallback(null, {title: config.widgetTitle,jobList : jobsInformation,jenkinsServer : config.jenkinsServer});

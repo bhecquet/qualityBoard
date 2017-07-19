@@ -8,13 +8,13 @@ var Jira_SUT = require('../Jira');
 var mockedConfig, mockedDependencies;
 
 mockedDependencies = {
-			logger: console,
-			request : {
-				get :  function (options,response, cb) {
-					return(null, "<HTML>");
-				}
-			}
-		};
+	logger: console,
+	request : {
+		get :  function (options,response, cb) {
+			return(null, "<HTML>");
+		}
+	}
+};
 
 
 
@@ -101,6 +101,21 @@ describe ('Jira test', function(){
 						}	
 					}
 				}
+
+				mockedConfig = {
+					"interval" : 10000,
+					"widgetTitle" : " Jira ",
+					"authName" : "Jira",
+					"project" : "ENVMONITOR",
+					"jiraServer" : "https://jira.infotel.com",
+					"jiraRequest" : "/rest/api/2/search?",
+					"jiraIssueRequest" : "/rest/api/2/issue/<issueKey>",
+					"jiraVersionRequest" : "/rest/api/2/project/<project>/versions",
+					"VersionFilter" : "none",
+					"PriorityFilters" : [],
+					"StatusFilters" : [],
+					"TypeFilters": []
+				} ;
 
 				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
 					// assert.deepEqual(data.IssuesList,[{id : 0, type : 'type', status : 'status', priority : 'prior',title : 'summary'}])
