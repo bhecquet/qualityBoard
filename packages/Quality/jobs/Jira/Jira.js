@@ -80,14 +80,14 @@ module.exports = {
 			if(criterion.length == 0){
 				DoIPushVar 	= true;
 			} else{
-				DoIPushVar 	= isIn(issueValue,PriorityFilters);
+				DoIPushVar 	= isIn(issueValue,criterion);
 			}
 			return DoIPushVar;
 		}
 
 		//Push the issue if and only if it correspond to the criteria.
 		function pushIfOk(issueDescription,IssuesList){
-			//Each variable concern a gic=ven criterion
+			//Each variable concern a given criterion
 			var DoIPushPrior 	= false;
 			var DoIPushType		= false;
 			var DoIPushStatus	= false;
@@ -149,6 +149,7 @@ module.exports = {
 					global(IssuesTab);
 				});
 			} catch(e){
+				//console.log(e);
 				IssuesTab.push('Authentication error');
 				jobCallback(null,{title : config.widgetTitle,IssuesList : IssuesTab});
 			}
@@ -158,6 +159,7 @@ module.exports = {
 		function getIssueInformation(issueId,IssuesList){
 			issueAdress = issueAdressBase.replace(/<issueKey>/gi, issueId);
 			request.get(issueAdress,option,function(err,response,body){
+				
 				try{
 					var data 		= JSON.parse(body);
 					//Get all useful informations in a js object
@@ -179,12 +181,12 @@ module.exports = {
 						'priority' 	: priority,
 						'title' 	: title,
 					};
-
-					//Add the isue if it correpond
+					//Add the isue if it correspond
 					pushIfOk(issueDescription,IssuesList);
 					//Increment the global variables
 					updateStatVariables(priority,status);
 				}catch(e){
+					console.log('Test00' + e);
 					IssuesList.push("");
 				}
 				if(IssuesList.length == IssuesTab.length){

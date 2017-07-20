@@ -16,6 +16,21 @@ mockedDependencies = {
 	}
 };
 
+mockedConfig = {
+	"interval" 				: 10000,
+	"widgetTitle" 			: " Jira ",
+	"authName" 				: "Jira",
+	"project" 				: "ENVMONITOR",
+	"jiraServer" 			: "https://jira.infotel.com",
+	"jiraRequest" 			: "/rest/api/2/search?",
+	"jiraIssueRequest" 		: "/rest/api/2/issue/<issueKey>",
+	"jiraVersionRequest"	: "/rest/api/2/project/<project>/versions",
+	"VersionFilter"			: "none",
+	"PriorityFilters" 		: [],
+	"StatusFilters" 		: [],
+	"TypeFilters"			: []
+};
+
 
 
 
@@ -52,9 +67,7 @@ describe ('Jira test', function(){
 				};
 				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
 					assert.deepEqual(data.IssuesTab,[12,13]);
-				});
-
-				
+				});	
 			});
 	
 			it('should should push \'no Issues Found\' if the data are wrong (get IssuesId) ',function(){
@@ -76,51 +89,93 @@ describe ('Jira test', function(){
 
 
 		describe('getIssueInformation',function(err,data){
-			// Sunny Day
-			it('should push the right informations',function(){
+
+			it('should return the right informations',function(done){
 				mockedDependencies = {
 					request : {
 						get :function(adress,options,cb){
-							cb(null,
-								200,
-								`{
-									"fields" : {
-										"issuetype" : {
-											"name" : "type"
-										},
-										"status" : {
-											"name" : "status"
-										},
-										"priority" : {
-											"name" : "prior"
-										},
-										"summary" : "summary"
-									}
-								}`
-							);
+							var adressTest = adress;
+							switch(adressTest){
+								case "https://jira.infotel.com/rest/api/2/search?key=ENVMONITOR&maxResults=500": 
+									cb(
+										null,
+										200,
+										`{
+											"issues":
+											[
+												{
+													"fields" : {"fixVersions" : []},
+													"key" : 0
+												}
+											]
+										}`
+									);
+									break;
+								default:
+									cb(null,
+										200,
+										`{
+											"fields" : 
+											{
+												"issuetype" : 
+												{
+													"name" : "type"
+												},
+												"status" : 
+												{
+													"name" : "status"
+												},
+												"priority" : 
+												{
+													"name" : "prior"
+												},
+												"summary" : "summary",
+												"fixVersions" : []
+											}
+										}`
+									);
+								break;
+							}	
 						}	
 					}
-				}
+				};
 
 				mockedConfig = {
-					"interval" : 10000,
-					"widgetTitle" : " Jira ",
-					"authName" : "Jira",
-					"project" : "ENVMONITOR",
-					"jiraServer" : "https://jira.infotel.com",
-					"jiraRequest" : "/rest/api/2/search?",
-					"jiraIssueRequest" : "/rest/api/2/issue/<issueKey>",
-					"jiraVersionRequest" : "/rest/api/2/project/<project>/versions",
-					"VersionFilter" : "none",
-					"PriorityFilters" : [],
-					"StatusFilters" : [],
-					"TypeFilters": []
-				} ;
+					"interval" 				: 10000,
+					"widgetTitle" 			: " Jira ",
+					"authName" 				: "Jira",
+					"project" 				: "ENVMONITOR",
+					"jiraServer" 			: "https://jira.infotel.com",
+					"jiraRequest" 			: "/rest/api/2/search?",
+					"jiraIssueRequest" 		: "/rest/api/2/issue/<issueKey>",
+					"jiraVersionRequest"	: "/rest/api/2/project/<project>/versions",
+					"VersionFilter"			: "none",
+					"PriorityFilters" 		: [],
+					"StatusFilters" 		: [],
+					"TypeFilters"			: []
+				};
 
 				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
-					// assert.deepEqual(data.IssuesList,[{id : 0, type : 'type', status : 'status', priority : 'prior',title : 'summary'}])
+					assert.deepEqual(data.IssuesList,[{id : 0, type : 'type', status : 'status', priority : 'prior',title : 'summary'}]);
+					done();
 				});
 			});
+
+			it('should return an Authentication error',function(done){
+				mockedDependencies = {
+					request : {
+						get : function(adress,option,cb){
+							cb(null,200,`{}`);
+						}
+					}
+				};
+
+				Jira_SUT.onRun(mockedConfig,mockedDependencies,function(err,data){
+					assert.deepEqual(data.IssuesList,['Authentication error']);
+					done();
+				});
+			});
+
 		});
 	});
 });
