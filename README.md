@@ -10,7 +10,7 @@ The first widget shows *SonarQube*'s relevant metrics, and a graphic of the glob
 
 The Second widget summarize *Jira* issues. A summary of the issues numbers, by priorities and status, is above a tab describing all the issues. As in the *SonarQube* widget, a link to the Jira issues is available on the issue description, and in the priorities and status count. It is also possible to add filters to the tab.
 
-In the *Jenkins* widget will display the name, status and excecution time of a given job. A link to the job the *Jenkins* server will also be available.
+In the *Jenkins* widget displays the name, status and excecution time of a given job. A link to the job the *Jenkins* server is also available.
 
 
 ## First Use
@@ -80,9 +80,11 @@ If there is constraints for more than one variable, an issu will be selected if 
 The default parameter is empty tab, meaning all issues will be shown, considering this variable.
 
 ### Jenkins
-This widget will summarize informations given by the Jenkins server. For this widget, there is no need to specified the project you want informations on.
+This widget display informations on a choosen job.
 
-In this widget, you may select jobs in *jobList*, in *packages/Quality/QualityDashboard*. To display a job, add it's name to the tab. You may add as much names as you wish.
+To have a job displayed, you just have to add it's name on the *configuration file*. The job name is a link to the job on Jenkins.
+
+If the job you want information on does not exist, or if their is no build available, an error will be displayed.
 
 ## Useful Links
 
