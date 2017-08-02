@@ -13,7 +13,7 @@ module.exports = {
 
       		//Mocked iterations : 
 				var it1 = {
-					nom         : "IT_1",
+					nom         : "Un nom très très long pour voir ce que ça donne ",
 					Aexecuter   : 1,
 					EnCours     : 5,
 					Succes      : 4,

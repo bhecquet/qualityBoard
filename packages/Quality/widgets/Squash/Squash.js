@@ -21,38 +21,40 @@ widget = {
 				//First add the name of the campaign
 				$content.append(`<div class="name"> ${name} </div> `);
 				//Add the header of the tab
-				$content.append(`
+				var campaingInfo = "";
+				campaingInfo+=`
 					<table class="CampaignTable">
 						<tr class="header">
-							<th> Iteration</th>
-							<th> To Do </th>
-							<th> In Progress </th>
-							<th> Success </th>
-							<th> Failure </th>
-							<th> Blocked </th>
-							<th> Non Testable </th>
-							<th> Planified Tests </th>
-							<th> Avancment </th>
+							<th class="it"> Iteration</th>
+							<th class="todo"> To Do </th>
+							<th class="IP"> In Progress </th>
+							<th class="S"> Success </th>
+							<th class="F"> Failure </th>
+							<th class="B"> Blocked </th>
+							<th class="nt"> Non Testable </th>
+							<th class="pt"> Planified Tests </th>
+							<th class="a"> Avancment </th>
 						</tr>`
-				);
+				;
 				//Then create a tab to add all of the itérations
 				campaign.iterations.forEach(function(iteration){
-					$content.append(
+					campaingInfo+=
 						`<tr>
-							<th> ${iteration.nom}</th>
-							<th> ${iteration.Aexecuter} </th>
-							<th> ${iteration.EnCours} </th>
-							<th> ${iteration.Succes} </th>
-							<th> ${iteration.Echec} </th>
-							<th> ${iteration.Bloque} </th>
-							<th> ${iteration.NonTestable} </th>
-							<th> ${iteration.Planifies} </th>
-							<th> ${iteration.Avancement} </th>
+							<th class="longTitle"> ${iteration.nom}</th>
+							<th class="todo"> ${iteration.Aexecuter} </th>
+							<th class="IP"> ${iteration.EnCours} </th>
+							<th class="S"> ${iteration.Succes} </th>
+							<th class="F"> ${iteration.Echec} </th>
+							<th class="B"> ${iteration.Bloque} </th>
+							<th class="nt"> ${iteration.NonTestable} </th>
+							<th class="pt"> ${iteration.Planifies} </th>
+							<th class="a"> ${iteration.Avancement} </th>
 						</tr>`
-					);
+					;
 				});
 				//! Remember to close the table balise
-				$content.append(`</table>`);
+				campaingInfo+=`</table>`;
+				$content.append(campaingInfo);
 			});
 		}catch(e){
 			console.log(e);
