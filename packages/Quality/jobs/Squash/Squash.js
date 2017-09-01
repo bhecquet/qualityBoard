@@ -63,6 +63,26 @@ module.exports = {
 			//Mocked CallBack
 			var Campaigns = [Camp1,Camp2];
 
+			//Real code
+
+		//get the authentication informations
+		try {
+			var user 		= config.globalAuth[config.authName].username;
+			var password 	= config.globalAuth[config.authName].password;
+		} catch(e){
+			var user 		= "error";
+			var password 	= "error";
+		}
+		//This object will allow the authentication
+		var option = {
+			'auth' : {
+				'user' : user,
+				'pass' : password
+			}
+		};
+
+		//	
+
     	jobCallback(null, {title: config.widgetTitle, Campaigns : Campaigns});
 
   }

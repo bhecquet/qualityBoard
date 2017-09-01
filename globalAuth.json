@@ -1,14 +1,18 @@
 {
     "Jira":{
-        "username":"TIDU",
-        "password":"$pass"
+        "username":"$user",
+        "password":"$password"
     },
     "SonarQube":{
-    	"username":"user",
-    	"password":"infotel35"
+        "username":"$user",
+        "password":"$password"
     },
     "Jenkins":{
-    	"username":"user",
-    	"password":"infotel35"
+        "username":"$user",
+        "password":"$password"
+    },
+    "Squash":{
+        "username":"$user",
+        "password":"$password"
     }
 }

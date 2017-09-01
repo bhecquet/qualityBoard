@@ -38,11 +38,11 @@
 								"vulnerabilities"],
 			"testList" : ["tests", "coverage", "test_errors", "test_failures", "test_success_density"],
 			"Avancement" : "sqale_index",
-			"metricAdress" : "ServeurAdress/api/measures/component?componentKey=com.infotel.seleniumRobot:",
-			"graphicAdress" : "ServeurAdressapi/timemachine/index?resource=com.infotel.seleniumRobot:",
-			"metricLinkB" : "ServeurAdress/component_measures/metric/",
+			"metricAdress" : "http://vs-dev15:9000/api/measures/component?componentKey=com.infotel.seleniumRobot:",
+			"graphicAdress" : "http://vs-dev15:9000/api/timemachine/index?resource=com.infotel.seleniumRobot:",
+			"metricLinkB" : "http://vs-dev15:9000/component_measures/metric/",
 			"metricLinkE" : "/list?id=com.infotel.seleniumRobot%3A",
-			"sonarQubeServerUrl": "ServeurAdress",
+			"sonarQubeServerUrl": "http://vs-dev15:9000",
 			"metricUrl": "/component_measures/metric/<METRICS>/list?id=<PROJECT>"
 		},
 		"Jira" : {
@@ -50,7 +50,7 @@
 			"widgetTitle" : " Jira ",
 			"authName" : "Jira",
 			"project" : "ENVMONITOR",
-			"jiraServer" : "ServeurAdress",
+			"jiraServer" : "https://jira.infotel.com",
 			"jiraRequest" : "/rest/api/2/search?",
 			"jiraIssueRequest" : "/rest/api/2/issue/<issueKey>",
 			"jiraVersionRequest" : "/rest/api/2/project/<project>/versions",
@@ -63,10 +63,10 @@
 			"interval" : 10000,
 			"widgetTitle" : "Jenkins",
 			"authName" : "Jenkins",
-			"jenkinsServer" : "ServeurAdress",
+			"jenkinsServer" : "http://vs-dev15:8082/jenkins",
 			"jenkinsRequest" : "/api/json",
 			"jobRequest" : "/job/<jobName>/lastBuild/api/json",
-			"jobList" : []
+			"jobList" : ["Backup","Angular_pipeline","templateSquashTAExecutionMavenJob","JPetStore_Tests_Services"]
 		},
 		"Squash" : {
 			"interval" 			: 10000,
